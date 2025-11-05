@@ -107,12 +107,12 @@ const User = sequelize.define('User', {
 }, {
   tableName: 'users',
   timestamps: true,
-  underscored: true,  // ← ADD
+  underscored: true, 
   indexes: [
     { fields: ['email'] },
-    { fields: ['role_id'] },  // ← CHANGE
-    { fields: ['is_active'] },  // ← CHANGE
-    { fields: ['national_id'] },  // ← CHANGE
+    { fields: ['role_id'] },  
+    { fields: ['is_active'] },  
+    { fields: ['national_id'] }, 
     { fields: ['organization'] }
   ],
   hooks: {
