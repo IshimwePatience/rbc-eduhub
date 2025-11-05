@@ -9,13 +9,13 @@ const Role = sequelize.define('Role', {
   },
   name: {
     type: DataTypes.ENUM('Super Admin', 'Admin', 'Instructor', 'Learner', 'Data Analyst'),
-    allowNull: false,
-    unique: true
+    allowNull: false
+    // REMOVED unique: true from here
   },
   slug: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true,
+    // REMOVED unique: true from here too
     set(value) {
       this.setDataValue('slug', value.toLowerCase());
     }
@@ -32,12 +32,12 @@ const Role = sequelize.define('Role', {
   isSystemRole: {
     type: DataTypes.BOOLEAN,
     defaultValue: false,
-    field: 'is_system_role'  // ← ADD THIS
+    field: 'is_system_role'
   },
   isActive: {
     type: DataTypes.BOOLEAN,
     defaultValue: true,
-    field: 'is_active'  // ← ADD THIS
+    field: 'is_active'
   },
   priority: {
     type: DataTypes.INTEGER,
@@ -46,11 +46,17 @@ const Role = sequelize.define('Role', {
 }, {
   timestamps: true,
   tableName: 'roles',
-  underscored: true,  // ← ADD THIS (converts camelCase to snake_case)
+  underscored: true,
   indexes: [
-    { fields: ['name'] },
-    { fields: ['slug'] },
-    { fields: ['is_active'] }  // ← CHANGE THIS
+    { 
+      unique: true,  // MOVED unique constraint here
+      fields: ['name'] 
+    },
+    { 
+      unique: true,  // MOVED unique constraint here
+      fields: ['slug'] 
+    },
+    { fields: ['is_active'] }
   ]
 });
 

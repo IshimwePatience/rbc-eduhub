@@ -38,11 +38,10 @@ const Video = sequelize.define('Video', {
   },
   fileSize: {
     type: DataTypes.BIGINT,
-    allowNull: false,
-    field: 'file_size'
+    allowNull: false
   },
   mimeType: {
-    type: DataTypes.ENUM('video/mp4', 'video/webm', 'video/ogg'),
+    type: DataTypes.STRING,
     allowNull: false,
     field: 'mime_type'
   },

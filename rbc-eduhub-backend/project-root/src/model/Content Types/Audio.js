@@ -38,11 +38,10 @@ const Audio = sequelize.define('Audio', {
   },
   fileSize: {
     type: DataTypes.BIGINT,
-    allowNull: false,
-    field: 'file_size'
+    allowNull: false
   },
   mimeType: {
-    type: DataTypes.ENUM('audio/mpeg', 'audio/wav', 'audio/ogg', 'audio/mp3'),
+    type: DataTypes.STRING,
     allowNull: false,
     field: 'mime_type'
   },
