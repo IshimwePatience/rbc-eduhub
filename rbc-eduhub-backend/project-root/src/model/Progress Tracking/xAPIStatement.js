@@ -20,11 +20,7 @@ const xAPIStatement = sequelize.define('xAPIStatement', {
 }, {
   timestamps: true,
   tableName: 'xapi_statements',
-  underscored: true,
   indexes: [
-    { fields: [sequelize.literal("((actor->>'userId')::uuid)")] },
-    { fields: [sequelize.literal("((object->>'objectId')::uuid)")] },
-    { fields: [sequelize.literal("(verb->>'id')")] },
     { fields: ['timestamp'] }
   ]
 });

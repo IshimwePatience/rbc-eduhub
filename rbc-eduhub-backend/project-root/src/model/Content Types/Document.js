@@ -38,27 +38,16 @@ const Document = sequelize.define('Document', {
   },
   fileSize: {
     type: DataTypes.BIGINT,
-    allowNull: false,
-    field: 'file_size'
+    allowNull: false
   },
   mimeType: {
-    type: DataTypes.ENUM(
-      'application/pdf',
-      'application/msword',
-      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-      'application/vnd.ms-powerpoint',
-      'application/vnd.openxmlformats-officedocument.presentationml.presentation',
-      'application/vnd.ms-excel',
-      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-      'text/plain'
-    ),
+    type: DataTypes.STRING,
     allowNull: false,
     field: 'mime_type'
   },
   pageCount: {
     type: DataTypes.INTEGER,
-    allowNull: true,
-    field: 'page_count'
+    allowNull: true
   },
   thumbnail: {
     type: DataTypes.STRING,
