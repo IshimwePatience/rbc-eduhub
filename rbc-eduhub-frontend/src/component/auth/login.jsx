@@ -31,7 +31,7 @@ function Login() {
 
           {/* Login Form */}
           <div className="rounded-2xl border border-gray-500 p-8">
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-4">
               {/* Google Login Button */}
               <button
                 type="button"

@@ -9,20 +9,23 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="bg-white shadow-md border-b-4 border-blue-500 fixed top-0 left-0 right-0 z-50">
+      <nav className="bg-gray-50 shadow-md border-b-4 border-blue-500 fixed top-0 left-0 right-0 z-[60]">
         <div className="w-full px-3 sm:px-3 lg:px-3">
           <div className="flex justify-between items-center h-8">
             <Link 
               to="/Getstarted" 
               className="flex items-center space-x-2 px-3 py-1 hover:border-l-2 hover:border-r-2 hover:border-dotted hover:border-blue-600 transition-all"
             >
-              <Home className="text-blue-600" size={24} />
-              <span className="text-gray-800 font-medium hidden md:block">
-                Welcome to Rwanda Biomedical Center Eduhub
-              </span>
-              <span className="text-gray-800 font-medium md:hidden text-sm">
-                RBC Eduhub
-              </span>
+              <svg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg' className="w-6 h-6">
+                <circle cx='50' cy='50' r='50' fill='#0969da'/>
+                <path d='M 50 15 C 32 15, 20 27, 20 42 C 20 49, 23 53, 28 59 L 28 67 C 28 70, 30 72, 33 72 L 67 72 C 70 72, 72 70, 72 67 L 72 59 C 77 53, 80 49, 80 42 C 80 27, 68 15, 50 15 Z' fill='white' stroke='#e0e0e0' strokeWidth='2'/>
+                <rect x='40' y='72' width='20' height='4' fill='#bbb' rx='1'/>
+                <rect x='40' y='77' width='20' height='4' fill='#bbb' rx='1'/>
+                <rect x='42' y='82' width='16' height='5' fill='#aaa' rx='1.5'/>
+                <path d='M 28 35 L 28 55 M 28 35 L 36 35 Q 39 35, 39 39 Q 39 43, 36 43 L 28 43 M 36 43 L 39 55' fill='none' stroke='#4A90E2' strokeWidth='5' strokeLinecap='round' strokeLinejoin='round'/>
+                <path d='M 43 35 L 43 55 M 43 35 L 51 35 Q 54 35, 54 38.5 Q 54 42, 51 42 L 43 42 M 43 42 L 52 42 Q 56 42, 56 47.5 Q 56 53, 52 53 L 43 53' fill='none' stroke='#F5B800' strokeWidth='5' strokeLinecap='round' strokeLinejoin='round'/>
+                <path d='M 72 35 Q 62 35, 62 45 Q 62 55, 72 55' fill='none' stroke='#50C878' strokeWidth='5' strokeLinecap='round'/>
+              </svg>
             </Link>
 
             {/* Desktop Menu */}

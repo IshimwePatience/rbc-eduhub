@@ -7,6 +7,7 @@ import About from './component/landingpages/About';
 import Contact from './component/landingpages/Contact';
 import Login from './component/auth/Login';
 import Footer from './component/footer';
+import Certificates from './component/landingpages/certificates';
 
 function App() {
   const [isOnline, setIsOnline] = useState(navigator.onLine);
@@ -26,7 +27,7 @@ function App() {
 
   return (
     <Router>
-      <div className="min-h-screen bg-gray-50 flex flex-col">
+      <div className="min-h-screen flex flex-col">
         {/* Show offline banner when no internet */}
         {!isOnline && (
           <div className="bg-gray-800 text-white text-center py-2 text-sm">
@@ -56,6 +57,13 @@ function App() {
               <>
                 <SubNavbar />
                 <Contact />
+                <Footer />
+              </>
+            } />
+             <Route path="/certificates" element={
+              <>
+                <SubNavbar />
+                <Certificates />
                 <Footer />
               </>
             } />
