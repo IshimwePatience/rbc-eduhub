@@ -17,30 +17,30 @@ function Footer() {
   };
 
   return (
-    <footer className="bg-[#061c30] text-white py-8 md:py-16 w-full overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 w-full">
+    <footer className="bg-[#061c30] text-white py-6 md:py-6 w-full overflow-hidden">
+      <div className="max-w-7xl mx-auto px-2 sm:px-2 w-full">
         
         {/* Desktop Grid - Hidden on Mobile */}
-        <div className="hidden lg:grid grid-cols-4 gap-8 xl:gap-12 mb-12">
+        <div className="hidden lg:grid grid-cols-4 gap-6 xl:gap-8 mb-4">
           
           {/* Company Info & Locations */}
           <div className="min-w-0">
-             <h3 className="text-xl md:text-2xl font-bold mb-4 md:mb-6 text-white">RBC EduHub <span className="text-blue-600 font-bold">.</span></h3>
+             <h3 className="text-xl md:text-2xl font-proxima font-bold mb-4 md:mb-6 text-white">RBC EduHub <span className="text-blue-600 font-bold">.</span></h3>
             
-            <div className="space-y-4 xl:space-y-6 text-sm">
+            <div className="space-y-3 xl:space-y-4 text-sm">
               <div>
-                 <h4 className="font-semibold mb-2 text-gray-200">Rwanda Office</h4>
-                <p className="text-gray-400 leading-relaxed">KG 644 St, Kigali,</p>
-                <p className="text-gray-400">Kimihurura | Kigali | Rwanda</p>
-                 <p className="text-gray-400">P.O. Box 7162 Kigali, Rwanda</p>
+                 <h4 className="font-semibold font-proxima  mb-2 text-gray-200">Rwanda Office</h4>
+                <p className="text-gray-400 font-proxima  leading-relaxed">KG 644 St, Kigali,</p>
+                <p className="text-gray-400 font-proxima ">Kimihurura | Kigali | Rwanda</p>
+                 <p className="text-gray-400 font-proxima ">P.O. Box 7162 Kigali, Rwanda</p>
               </div>
             </div>
           </div>
 
           {/* Learning Column */}
           <div className="min-w-0">
-            <h4 className="font-bold mb-4 text-white">Learning</h4>
-            <ul className="space-y-3 text-sm text-gray-300">
+            <h4 className="font-bold font-proxima  mb-4 text-white">Learning</h4>
+            <ul className="space-y-3 text-sm font-proxima text-gray-300">
               <li>
                 <Link to="/Getstarted" className="hover:text-blue-400 transition-colors inline-block">
                   Get Started
@@ -71,8 +71,8 @@ function Footer() {
 
           {/* Resources Column */}
           <div className="min-w-0">
-            <h4 className="font-bold mb-4 text-white">Resources</h4>
-            <ul className="space-y-3 text-sm text-gray-300">
+            <h4 className="font-bold font-proxima  mb-4 text-white">Resources</h4>
+            <ul className="space-y-3 text-sm font-proxima  text-gray-300">
               <li>
                 <Link to="/instructors" className="hover:text-blue-400 transition-colors inline-block">
                   Instructors
@@ -93,7 +93,7 @@ function Footer() {
 
           {/* About Us Column */}
           <div className="min-w-0">
-            <h4 className="font-bold mb-4 text-white">About Us</h4>
+            <h4 className="font-bold font-proxima mb-4 text-white">About Us</h4>
             <ul className="space-y-3 text-sm text-gray-300">
               <li>
                 <Link to="/about" className="hover:text-blue-400 transition-colors inline-block">
@@ -103,8 +103,8 @@ function Footer() {
             </ul>
 
             <div className="mt-6 xl:mt-8">
-              <h4 className="font-bold mb-4 text-white">Contact Us</h4>
-              <Link to="/contact" className="text-sm text-gray-300 hover:text-blue-400 transition-colors inline-block">
+              <h4 className="font-bold font-proxima  mb-4 text-white">Contact Us</h4>
+              <Link to="/contact" className="text-sm font-proxima text-gray-300 hover:text-blue-400 transition-colors inline-block">
                 Let's Connect
               </Link>
             </div>
@@ -240,7 +240,7 @@ function Footer() {
         </div>
 
         {/* Social Media Icons */}
-        <div className="flex flex-wrap gap-4 md:gap-6 pt-6 md:pt-8 border-t border-gray-700">
+        <div className="flex flex-wrap gap-4 md:gap-6 pt-4 md:pt-4">
           <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="hover:text-blue-400 transition-colors" aria-label="LinkedIn">
             <Linkedin size={24} />
           </a>
@@ -261,7 +261,7 @@ function Footer() {
         </div>
 
         {/* Copyright */}
-        <div className="mt-6 md:mt-8 pt-6 md:pt-8 border-t border-gray-700 text-xs md:text-sm text-gray-400">
+        <div className="mt-6 md:mt-8 pt-6 md:pt-8 text-xs md:text-sm text-gray-400">
           <p className="text-center">© {new Date().getFullYear()} Rwanda Biomedical Centre. All rights reserved.</p>
         </div>
       </div>
