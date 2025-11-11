@@ -57,9 +57,9 @@ const SubNavbar = () => {
 
   return (
     <>
-      <div className="bg-gray-100 shadow-sm relative z-40">
+      <div className="bg-gray-50 shadow-sm relative z-40 -mt-8">
         {/* Top Utility Bar */}
-        <div className="bg-white">
+        <div className="bg-gray-50">
           <div className="max-w-7xl mx-auto px-6">
             <div className="flex items-center justify-end space-x-6 h-10">
               <Link to="/partners" className="text-sm text-gray-700 hover:text-gray-900">
@@ -76,7 +76,7 @@ const SubNavbar = () => {
         </div>
 
         {/* Main Navigation Bar */}
-        <div className="bg-white">
+        <div className="bg-gray-50">
           <div className="max-w-7xl mx-auto px-6">
             <div className="flex items-center justify-between h-20">
                {/* Logo */}

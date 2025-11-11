@@ -21,13 +21,12 @@ function Login() {
       {/* Left Side - Login Form */}
       <div className="w-full lg:w-1/2 flex items-center justify-center bg-white px-8 py-12">
         <div className="max-w-md w-full">
-
-          {/* Main Heading */}
-          {/* <div className="mb-8">
-            <h2 className="text-gray-800 text-5xl font-bold mb-2">Impossible?</h2>
-            <h2 className="text-gray-800 text-5xl font-bold mb-4">Possible.</h2>
-            <p className="text-gray-400 text-lg">The LMS for healthcare professionals</p>
-          </div> */}
+          {/* Get Started Link */}
+          <div className="mb-6">
+            <Link to="/getstarted" className="text-base font-medium text-gray-800 hover:text-gray-900 hover:underline">
+              Get Started &rarr;
+            </Link>
+          </div>
 
           {/* Login Form */}
           <div className="rounded-2xl border border-gray-500 p-8">
@@ -60,7 +59,7 @@ function Login() {
                   placeholder="Enter your email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full bg-gray-700 text-white px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
+                  className="w-full bg-black/10 text-gray-700 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
                   required
                 />
               </div>
@@ -72,7 +71,7 @@ function Login() {
                   placeholder="Enter your password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full bg-gray-700 text-white px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
+                  className="w-full bg-black/10 text-gray-700 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
                   required
                 />
               </div>
@@ -95,7 +94,7 @@ function Login() {
             </form>
 
             {/* Sign Up Link */}
-            <div className="mt-6 text-center">
+            <div className="mt-2 text-center">
               <p className="text-gray-400">
                 Don't have an account?{' '}
                 <Link to="/signup" className="text-blue-400 hover:underline font-semibold">
