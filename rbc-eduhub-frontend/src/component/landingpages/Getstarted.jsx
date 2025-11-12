@@ -156,7 +156,7 @@ function GetStarted() {
             <div className="lg:sticky lg:top-8">
               
               {/* Dive Deeper Section */}
-              <div className="bg-white p-8 rounded-lg shadow-sm mb-8">
+              <div className="bg-stone-200 p-8 rounded-lg shadow-sm mb-8">
                 <h2 className="text-2xl font-bold text-gray-800 mb-6">DIVE DEEPER</h2>
                 
                 <div className="space-y-6 text-gray-700">
@@ -178,7 +178,7 @@ function GetStarted() {
                   <input 
                     type="text" 
                     placeholder="Search courses..." 
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-4 py-3 border bg-stone-200 border-gray-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
               </div>
