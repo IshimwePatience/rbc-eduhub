@@ -116,13 +116,13 @@ function Footer() {
           
           {/* Company Info - Always Visible */}
           <div className="mb-6 md:mb-8">
-            <h3 className="text-xl md:text-2xl font-bold mb-4 md:mb-6 text-white">RBC EduHub <span className="text-blue-600 font-bold">.</span></h3>
+            <h3 className="text-xl md:text-2xl font-bold mb-4 md:mb-6 text-gray-900">RBC EduHub <span className="text-blue-600 font-bold">.</span></h3>
             <div className="space-y-3 md:space-y-4 text-sm">
               <div>
-                <h4 className="font-semibold mb-2 text-gray-200">Rwanda Office</h4>
-                <p className="text-gray-400 leading-relaxed">KG 644 St, Kigali,</p>
-                <p className="text-gray-400">Kimihurura | Kigali | Rwanda</p>
-                 <p className="text-gray-400">P.O. Box 7162 Kigali, Rwanda</p>
+                <h4 className="font-semibold mb-2 text-gray-900">Rwanda Office</h4>
+                <p className="text-gray-900 leading-relaxed">KG 644 St, Kigali,</p>
+                <p className="text-gray-900">Kimihurura | Kigali | Rwanda</p>
+                 <p className="text-gray-900">P.O. Box 7162 Kigali, Rwanda</p>
               </div>
             </div>
           </div>
@@ -134,14 +134,14 @@ function Footer() {
               className="w-full flex justify-between items-center py-3 md:py-4 text-left focus:outline-none touch-manipulation"
               aria-expanded={openSections.learning}
             >
-              <h4 className="font-bold text-base md:text-lg text-white">Learning</h4>
+              <h4 className="font-bold text-base md:text-lg text-gray-900">Learning</h4>
               <ChevronDown 
                 size={20} 
-                className={`transform transition-transform duration-200 text-white flex-shrink-0 ml-2 ${openSections.learning ? 'rotate-180' : ''}`}
+                className={`transform transition-transform duration-200 text-gray-900 flex-shrink-0 ml-2 ${openSections.learning ? 'rotate-180' : ''}`}
               />
             </button>
             {openSections.learning && (
-              <ul className="pb-3 md:pb-4 space-y-2 md:space-y-3 text-sm text-gray-300">
+              <ul className="pb-3 md:pb-4 space-y-2 md:space-y-3 text-sm text-gray-900">
                 <li>
                   <Link to="/Getstarted" className="hover:text-blue-400 transition-colors block py-1">
                     Get Started
@@ -178,14 +178,14 @@ function Footer() {
               className="w-full flex justify-between items-center py-3 md:py-4 text-left focus:outline-none touch-manipulation"
               aria-expanded={openSections.resources}
             >
-              <h4 className="font-bold text-base md:text-lg text-white">Resources</h4>
+              <h4 className="font-bold text-base md:text-lg text-gray-900">Resources</h4>
               <ChevronDown 
                 size={20} 
-                className={`transform transition-transform duration-200 text-white flex-shrink-0 ml-2 ${openSections.resources ? 'rotate-180' : ''}`}
+                className={`transform transition-transform duration-200 text-gray-900 flex-shrink-0 ml-2 ${openSections.resources ? 'rotate-180' : ''}`}
               />
             </button>
             {openSections.resources && (
-              <ul className="pb-3 md:pb-4 space-y-2 md:space-y-3 text-sm text-gray-300">
+              <ul className="pb-3 md:pb-4 space-y-2 md:space-y-3 text-sm text-gray-900">
                 <li>
                   <Link to="/instructors" className="hover:text-blue-400 transition-colors block py-1">
                     Instructors
@@ -212,15 +212,15 @@ function Footer() {
               className="w-full flex justify-between items-center py-3 md:py-4 text-left focus:outline-none touch-manipulation"
               aria-expanded={openSections.about}
             >
-              <h4 className="font-bold text-base md:text-lg text-white">About Us</h4>
+              <h4 className="font-bold text-base md:text-lg text-gray-900">About Us</h4>
               <ChevronDown 
                 size={20} 
-                className={`transform transition-transform duration-200 text-white flex-shrink-0 ml-2 ${openSections.about ? 'rotate-180' : ''}`}
+                className={`transform transition-transform duration-200 text-gray-900 flex-shrink-0 ml-2 ${openSections.about ? 'rotate-180' : ''}`}
               />
             </button>
             {openSections.about && (
               <div className="pb-3 md:pb-4 space-y-4 md:space-y-6">
-                <ul className="space-y-2 md:space-y-3 text-sm text-gray-300">
+                <ul className="space-y-2 md:space-y-3 text-sm text-gray-900">
                   <li>
                     <Link to="/about" className="hover:text-blue-400 transition-colors block py-1">
                       About
@@ -229,8 +229,8 @@ function Footer() {
                 </ul>
 
                 <div>
-                  <h5 className="font-bold mb-2 text-white">Contact Us</h5>
-                  <Link to="/contact" className="text-sm text-gray-300 hover:text-blue-400 transition-colors inline-block">
+                  <h5 className="font-bold mb-2 text-gray-900">Contact Us</h5>
+                  <Link to="/contact" className="text-sm text-gray-900 hover:text-blue-400 transition-colors inline-block">
                     Let's Connect
                   </Link>
                 </div>

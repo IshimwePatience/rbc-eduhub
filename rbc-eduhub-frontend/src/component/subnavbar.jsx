@@ -154,112 +154,114 @@ const SubNavbar = () => {
         </div>
       </div>
 
-      {/* Full Screen Search Overlay */}
-      {showSearch && (
-        <div className="fixed inset-0 bg-white z-50 overflow-y-auto">
-          <div className="max-w-6xl mx-auto px-6 py-8">
-            {/* Close Button */}
-            <div className="flex justify-end mb-6">
-              <button 
-                onClick={() => setShowSearch(false)}
-                className="p-2 hover:bg-gray-100 rounded-full transition-colors"
-              >
-                <X size={24} className="text-gray-600" />
-              </button>
-            </div>
+      {/* Full Screen Search Overlay with Slide Animation */}
+      <div 
+        className={`fixed inset-0 bg-white z-50 overflow-y-auto transition-transform duration-300 ease-out ${
+          showSearch ? 'translate-y-0' : '-translate-y-full'
+        }`}
+      >
+        <div className="max-w-6xl mx-auto px-6 py-8">
+          {/* Close Button */}
+          <div className="flex justify-end mb-6">
+            <button 
+              onClick={() => setShowSearch(false)}
+              className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+            >
+              <X size={24} className="text-gray-600" />
+            </button>
+          </div>
 
-            {/* Large Search Title */}
-            <h1 className="text-6xl font-light text-gray-300 mb-8">Search</h1>
+          {/* Large Search Title */}
+          <h1 className="text-6xl font-light text-gray-300 mb-8">Search</h1>
 
-            {/* Search Input */}
-            <div className="relative mb-8">
-              <input
-                type="text"
-                placeholder="Search courses..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                onKeyPress={(e) => {
-                  if (e.key === 'Enter') {
-                    handleSearch(e);
-                  }
-                }}
-                className="w-full px-6 py-4 pr-12 border-b-2 border-gray-300 focus:outline-none focus:border-gray-900 text-lg bg-transparent"
-                autoFocus
-              />
-              <button 
-                onClick={handleSearch}
-                className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-900"
-              >
-                <Search size={24} />
-              </button>
-            </div>
+          {/* Search Input */}
+          <div className="relative mb-8">
+            <input
+              type="text"
+              placeholder="Search courses..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onKeyPress={(e) => {
+                if (e.key === 'Enter') {
+                  handleSearch(e);
+                }
+              }}
+              className="w-full px-6 py-4 pr-12 border-b-2 border-gray-300 focus:outline-none focus:border-gray-900 text-lg bg-transparent"
+              autoFocus
+            />
+            <button 
+              onClick={handleSearch}
+              className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-900"
+            >
+              <Search size={24} />
+            </button>
+          </div>
 
-            {/* Course Filters */}
-            <div className="mb-12">
-              <h3 className="text-sm font-semibold text-gray-700 mb-4 uppercase tracking-wide">
-                Filter by Category
-              </h3>
-              <div className="flex flex-wrap gap-2">
-                {courseFilters.map((filter) => (
-                  <button
-                    key={filter}
-                    onClick={() => toggleFilter(filter)}
-                    className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-200 ${
-                      filter === 'All Courses'
-                        ? selectedFilters.length === 0
-                          ? 'bg-gray-900 text-white'
-                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                        : selectedFilters.includes(filter)
+          {/* Course Filters */}
+          <div className="mb-12">
+            <h3 className="text-sm font-semibold text-gray-700 mb-4 uppercase tracking-wide">
+              Filter by Category
+            </h3>
+            <div className="flex flex-wrap gap-2">
+              {courseFilters.map((filter) => (
+                <button
+                  key={filter}
+                  onClick={() => toggleFilter(filter)}
+                  className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-200 ${
+                    filter === 'All Courses'
+                      ? selectedFilters.length === 0
                         ? 'bg-gray-900 text-white'
                         : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                    }`}
-                  >
-                    {filter}
-                  </button>
+                      : selectedFilters.includes(filter)
+                      ? 'bg-gray-900 text-white'
+                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  }`}
+                >
+                  {filter}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Content Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+            {/* FAQ Section */}
+            <div>
+              <h2 className="text-xl font-bold text-gray-900 mb-6">FAQ</h2>
+              <div className="space-y-4">
+                {faqItems.map((item, index) => (
+                  <div key={index} className="border-b border-gray-200 pb-4">
+                    <button className="text-gray-700 hover:text-gray-900 text-left transition-colors">
+                      {item}
+                    </button>
+                  </div>
                 ))}
               </div>
             </div>
 
-            {/* Content Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-              {/* FAQ Section */}
-              <div>
-                <h2 className="text-xl font-bold text-gray-900 mb-6">FAQ</h2>
-                <div className="space-y-4">
-                  {faqItems.map((item, index) => (
-                    <div key={index} className="border-b border-gray-200 pb-4">
-                      <button className="text-gray-700 hover:text-gray-900 text-left transition-colors">
-                        {item}
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Top Searches Section */}
-              <div className="md:col-span-2">
-                <h2 className="text-xl font-bold text-gray-900 mb-6">Top Searches:</h2>
-                <div className="space-y-6">
-                  {topSearches.map((row, rowIndex) => (
-                    <div key={rowIndex} className="grid grid-cols-3 gap-4">
-                      {row.map((search, index) => (
-                        <div key={index} className="border-b border-gray-200 pb-4">
-                          <button 
-                            onClick={() => setSearchQuery(search)}
-                            className="text-gray-700 hover:text-gray-900 transition-colors"
-                          >
-                            {search}
-                          </button>
-                        </div>
-                      ))}
-                    </div>
-                  ))}
-                </div>
+            {/* Top Searches Section */}
+            <div className="md:col-span-2">
+              <h2 className="text-xl font-bold text-gray-900 mb-6">Top Searches:</h2>
+              <div className="space-y-6">
+                {topSearches.map((row, rowIndex) => (
+                  <div key={rowIndex} className="grid grid-cols-3 gap-4">
+                    {row.map((search, index) => (
+                      <div key={index} className="border-b border-gray-200 pb-4">
+                        <button 
+                          onClick={() => setSearchQuery(search)}
+                          className="text-gray-700 hover:text-gray-900 transition-colors"
+                        >
+                          {search}
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                ))}
               </div>
             </div>
           </div>
         </div>
-      )}
+      </div>
     </>
   );
 };
