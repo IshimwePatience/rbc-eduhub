@@ -12,9 +12,9 @@ function Contact() {
           <div className="lg:w-2/3">
             {/* Introduction */}
             <div className="mb-16 space-y-6 text-base text-gray-700 leading-relaxed">
-              <p className="text-xl">
-                Have questions about our Learning Management System? We're here to help.
-              </p>
+             <p className="text-3xl text-gray-700 leading-relaxed">
+  Have questions about our <span className="text-blue-600 font-semibold">Learning Management System</span>? We're <span className="text-blue-600 font-semibold">here to help</span>.
+</p>
               <p>
                 Whether you're a healthcare professional looking to enroll in courses, an institution seeking partnership opportunities, or simply need technical support, our team is ready to assist you.
               </p>

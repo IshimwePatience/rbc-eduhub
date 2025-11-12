@@ -151,7 +151,7 @@ function Certificates() {
               </div>
 
               {/* Quick Links */}
-              <div className="bg-[#061c30] p-8 rounded-lg">
+              <div className="bg-blue-600 p-8 rounded-lg">
                 <h3 className="text-xl font-bold text-gray-300 mb-4">QUICK LINKS</h3>
                 <ul className="space-y-3">
                   <li>

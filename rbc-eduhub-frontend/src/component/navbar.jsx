@@ -1,15 +1,27 @@
 // Navbar.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Home, HelpCircle, Menu, X } from 'lucide-react';
+import { HelpCircle, Menu, X } from 'lucide-react';
 
 const Navbar = () => {
   const [showHelpText, setShowHelpText] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isMobileMenuOpen]);
+
   return (
     <>
-      <nav className="bg-gray-50 shadow-md border-b-4 border-blue-500 fixed top-0 left-0 right-0 z-[60]">
+      <nav className="bg-stone-200 shadow-md border-b-4 border-blue-500 fixed top-0 left-0 right-0 z-[100]">
         <div className="w-full px-3 sm:px-3 lg:px-3">
           <div className="flex justify-between items-center h-8">
             {/* Desktop Menu */}
@@ -23,7 +35,7 @@ const Navbar = () => {
                 </Link>
                 <Link 
                   to="/signup" 
-                  className="bg-blue-600 text-white px-4 py-2 hover:bg-blue-700 transition-colors font-medium"
+                  className="bg-blue-600 text-white px-4 py-2 hover:bg-blue-700 transition-colors font-medium rounded"
                 >
                   Sign Up
                 </Link>
@@ -39,7 +51,7 @@ const Navbar = () => {
                 </button>
                 
                 {showHelpText && (
-                  <div className="absolute right-0 top-full mt-2 bg-blue-600 text-white px-3 py-1 rounded-lg text-sm whitespace-nowrap shadow-lg animate-slideDown">
+                  <div className="absolute right-0 top-full mt-2 bg-blue-600 text-white px-3 py-1 rounded-lg text-sm whitespace-nowrap shadow-lg">
                     Help
                     <div className="absolute -top-1 right-3 w-2 h-2 bg-blue-600 transform rotate-45"></div>
                   </div>
@@ -49,8 +61,9 @@ const Navbar = () => {
 
             {/* Mobile Menu Button */}
             <button 
-              className="md:hidden text-gray-700 hover:text-blue-600 z-50"
+              className="md:hidden text-gray-700 hover:text-blue-600 relative z-[101]"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              aria-label="Toggle menu"
             >
               {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
@@ -59,31 +72,31 @@ const Navbar = () => {
       </nav>
 
       {/* Spacer to prevent content from going under fixed navbar */}
-      <div className="h-16"></div>
+      <div className="h-8"></div>
 
       {/* Mobile Menu - Fullscreen Overlay */}
       {isMobileMenuOpen && (
-        <div className="md:hidden fixed inset-0 bg-white z-40 animate-slideDown">
-          <div className="flex flex-col items-center justify-center h-full space-y-8 px-6">
+        <div className="md:hidden fixed inset-0 bg-gradient-to-br from-gray-50 to-gray-100 z-[99]">
+          <div className="flex flex-col items-start justify-start h-full space-y-6 px-8 pt-24">
             <Link 
               to="/login" 
-              className="text-gray-700 hover:text-blue-600 font-medium transition-colors text-2xl"
+              className="text-gray-800 hover:text-blue-600 font-semibold transition-all duration-300 text-3xl hover:translate-x-2 w-full py-3 border-b border-gray-200"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               Login
             </Link>
             <Link 
               to="/signup" 
-              className="bg-blue-600 text-white px-8 py-4 hover:bg-blue-700 transition-colors font-medium text-2xl rounded-lg"
+              className="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-10 py-5 hover:from-blue-700 hover:to-blue-800 transition-all duration-300 font-semibold text-3xl rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transform w-full text-center"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               Sign Up
             </Link>
             <button 
-              className="flex items-center space-x-3 text-gray-700 hover:text-blue-600 font-medium text-2xl"
+              className="flex items-center space-x-4 text-gray-600 hover:text-blue-600 font-semibold text-3xl transition-all duration-300 hover:translate-x-2 w-full py-3 border-b border-gray-200"
               onClick={() => setIsMobileMenuOpen(false)}
             >
-              <HelpCircle size={28} />
+              <HelpCircle size={32} strokeWidth={2.5} />
               <span>Help</span>
             </button>
           </div>
