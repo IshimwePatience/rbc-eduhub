@@ -167,20 +167,6 @@ function Contact() {
                 </div>
               </div>
             </div>
-
-            {/* Closing Statement */}
-            <div className="text-center py-12">
-              <p className="text-2xl text-gray-700 leading-relaxed mb-8">
-                We look forward to hearing from you and supporting your healthcare education journey.
-              </p>
-              <button 
-                type="button"
-                onClick={() => window.location.href = 'mailto:ridsdatascience@gmail.com'}
-                className="px-10 py-4 border-2 border-gray-900 text-gray-900 rounded-full hover:bg-gray-900 hover:text-white transition-all duration-200 text-lg font-semibold"
-              >
-                Send Us A Message
-              </button>
-            </div>
           </div>
 
           {/* Sidebar - Right Side */}
@@ -188,7 +174,7 @@ function Contact() {
             <div className="lg:sticky lg:top-8">
               
               {/* Contact Details Section */}
-              <div className="bg-white p-8 rounded-lg shadow-sm mb-8">
+              <div className="bg-stone-200 p-8 rounded-lg shadow-sm mb-8">
                 <h2 className="text-2xl font-bold text-gray-800 mb-6">CONTACT DETAILS</h2>
                 
                 <div className="space-y-6 text-gray-700">
@@ -228,7 +214,7 @@ function Contact() {
                   <input 
                     type="text" 
                     placeholder="Search help topics..." 
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-4 py-3 border bg-stone-200 border-gray-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
               </div>

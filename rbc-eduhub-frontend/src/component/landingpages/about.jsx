@@ -168,7 +168,7 @@ function About() {
             <div className="lg:sticky lg:top-8">
               
               {/* Recognition Section */}
-              <div className="bg-white p-8 rounded-lg shadow-sm">
+              <div className="bg-stone-200 p-8 rounded-lg shadow-sm">
                 <h2 className="text-2xl font-bold text-gray-800 mb-6">Recognition from Rwanda's Healthcare Community</h2>
                 
                 <p className="text-sm text-gray-600 mb-6 leading-relaxed">
