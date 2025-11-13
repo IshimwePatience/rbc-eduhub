@@ -28,9 +28,9 @@ function App() {
   return (
     <Router>
       <div className="min-h-screen flex flex-col">
-        {/* Show offline banner when no internet */}
+        {/* Show offline banner when no internet - responsive text size */}
         {!isOnline && (
-          <div className="bg-gray-800 text-white text-center py-2 text-sm">
+          <div className="bg-gray-800 text-white text-center py-2 px-4 text-xs sm:text-sm">
             You are offline. Some features may not work.
           </div>
         )}

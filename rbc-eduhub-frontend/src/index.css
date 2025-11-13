@@ -19,6 +19,34 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  
+  /* Perfect scaling foundation */
+  font-size: 16px;
+}
+
+/* Responsive font scaling for different zoom levels */
+@media (min-resolution: 1.25dppx) and (max-resolution: 1.49dppx) {
+  :root {
+    font-size: 15px;
+  }
+}
+
+@media (min-resolution: 1.5dppx) and (max-resolution: 1.74dppx) {
+  :root {
+    font-size: 14px;
+  }
+}
+
+@media (min-resolution: 1.75dppx) and (max-resolution: 1.99dppx) {
+  :root {
+    font-size: 13px;
+  }
+}
+
+@media (min-resolution: 2dppx) {
+  :root {
+    font-size: 12px;
+  }
 }
 
 html, body {
@@ -26,17 +54,24 @@ html, body {
   height: 100%;
   margin: 0;
   padding: 0;
+  /* Ensure proper scaling */
+  overflow-x: hidden;
 }
 
 body {
   display: flex;
   min-width: 320px;
   min-height: 100vh;
+  /* Prevent layout shifts during scaling */
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
 }
 
 #root {
   width: 100%;
   height: 100%;
+  /* Hardware acceleration for smooth scaling */
+  will-change: transform;
 }
 
 a {
@@ -55,4 +90,11 @@ button {
   font: inherit;
   cursor: pointer;
   outline: none;
+}
+
+/* Ensure images scale properly */
+img, svg, video {
+  max-width: 100%;
+  height: auto;
+  display: block;
 }
