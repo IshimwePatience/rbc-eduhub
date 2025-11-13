@@ -47,7 +47,7 @@ function About() {
 
       {/* Two Column Layout */}
       <div className="max-w-7xl mx-auto px-4 py-16">
-        <div className="flex flex-col lg:flex-row gap-8">
+        <div className="flex flex-col lg:flex-row gap-3">
           
           {/* Main Content - Left Side */}
           <div className="lg:w-2/3">
@@ -156,7 +156,7 @@ function About() {
               </p>
               <button 
                 type="button"
-                className="px-10 py-4 border-2 border-gray-900 text-gray-900 rounded-full hover:bg-gray-900 hover:text-white transition-all duration-200 text-lg font-semibold"
+                className="px-4 py-4 border-2 border-gray-900 text-gray-900 rounded-full hover:bg-gray-900 hover:text-white transition-all duration-200 text-lg font-semibold"
               >
                 Explore Our Courses
               </button>
@@ -168,7 +168,7 @@ function About() {
             <div className="lg:sticky lg:top-8">
               
               {/* Recognition Section */}
-              <div className="bg-stone-200 p-8 rounded-lg shadow-sm">
+              <div className="bg-stone-200 p-8">
                 <h2 className="text-2xl font-bold text-gray-800 mb-6">Recognition from Rwanda's Healthcare Community</h2>
                 
                 <p className="text-sm text-gray-600 mb-6 leading-relaxed">
