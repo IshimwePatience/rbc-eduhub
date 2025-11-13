@@ -156,7 +156,7 @@ const SubNavbar = () => {
 
       {/* Full Screen Search Overlay with Slide Animation */}
       <div 
-        className={`fixed inset-0 bg-white z-50 overflow-y-auto transition-transform duration-300 ease-out ${
+        className={`fixed inset-0 bg-stone-200 z-50 overflow-y-auto transition-transform duration-300 ease-out ${
           showSearch ? 'translate-y-0' : '-translate-y-full'
         }`}
       >
@@ -172,7 +172,7 @@ const SubNavbar = () => {
           </div>
 
           {/* Large Search Title */}
-          <h1 className="text-6xl font-light text-gray-300 mb-8">Search</h1>
+          <h1 className="text-6xl font-light text-gray-400 mb-8">Search</h1>
 
           {/* Search Input */}
           <div className="relative mb-8">
