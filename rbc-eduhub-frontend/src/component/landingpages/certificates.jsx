@@ -35,7 +35,7 @@ function Certificates() {
 
       {/* Two Column Layout */}
       <div className="max-w-7xl mx-auto px-4 py-16">
-        <div className="flex flex-col lg:flex-row gap-8">
+        <div className="flex flex-col lg:flex-row gap-3">
           
           {/* Main Content - Left Side */}
           <div className="lg:w-2/3">
@@ -123,7 +123,7 @@ function Certificates() {
             <div className="lg:sticky lg:top-8">
               
               {/* Dive Deeper Section */}
-              <div className="bg-stone-200 p-8 rounded-lg shadow-sm mb-8">
+              <div className="bg-stone-200 p-8 mb-8">
                 <h2 className="text-2xl font-bold text-gray-800 mb-6">DIVE DEEPER</h2>
                 
                 <div className="space-y-6 text-gray-700">
@@ -151,7 +151,7 @@ function Certificates() {
               </div>
 
               {/* Quick Links */}
-              <div className="bg-blue-600 p-8 rounded-lg">
+              <div className="bg-blue-600 p-8">
                 <h3 className="text-xl font-bold text-gray-300 mb-4">QUICK LINKS</h3>
                 <ul className="space-y-3">
                   <li>
