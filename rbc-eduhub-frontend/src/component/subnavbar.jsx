@@ -57,7 +57,7 @@ const SubNavbar = () => {
 
   return (
     <>
-      <div className="bg-gray-50 shadow-sm relative z-10 pt-8">
+      <div className="bg-white shadow-sm relative z-10 pt-8">
         {/* Top Utility Bar */}
         <div className="bg-gray-50">
           <div className="max-w-7xl mx-auto px-6">
@@ -156,7 +156,7 @@ const SubNavbar = () => {
 
       {/* Full Screen Search Overlay with Slide Animation */}
       <div 
-        className={`fixed inset-0 bg-stone-200 z-50 overflow-y-auto transition-transform duration-300 ease-out ${
+        className={`fixed inset-0 bg-white z-50 overflow-y-auto transition-transform duration-300 ease-out ${
           showSearch ? 'translate-y-0' : '-translate-y-full'
         }`}
       >
