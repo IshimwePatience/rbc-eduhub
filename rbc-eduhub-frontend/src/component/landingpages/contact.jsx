@@ -174,7 +174,7 @@ function Contact() {
             <div className="lg:sticky lg:top-8">
               
               {/* Contact Details Section */}
-              <div className="bg-stone-200 p-8 rounded-lg shadow-sm mb-8">
+              <div className="bg-stone-200 p-8 mb-8">
                 <h2 className="text-2xl font-bold text-gray-800 mb-6">CONTACT DETAILS</h2>
                 
                 <div className="space-y-6 text-gray-700">
