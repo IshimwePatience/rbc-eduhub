@@ -57,7 +57,7 @@ const SubNavbar = () => {
 
   return (
     <>
-      <div className="bg-gray-50 shadow-sm relative z-40 ">
+      <div className="bg-gray-50 shadow-sm relative z-10 pt-8">
         {/* Top Utility Bar */}
         <div className="bg-gray-50">
           <div className="max-w-7xl mx-auto px-6">
