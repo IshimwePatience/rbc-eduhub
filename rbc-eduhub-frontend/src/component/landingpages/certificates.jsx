@@ -4,8 +4,9 @@ import React, { useEffect, useState } from 'react';
 const image1 = "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800";
 const image2 = "https://images.unsplash.com/photo-1505751172876-fa1923c5c528?w=800";
 const image3 = "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800";
-const image4 = "https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?w=800";
+const imagel = "https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?w=800";
 const image5 = "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800";
+import image4 from '../../assets/images/4.jpg';
 
 function Certificates() {
   const [visible, setVisible] = useState(false);
@@ -31,7 +32,14 @@ function Certificates() {
   return (
     <div className="min-h-screen bg-gray-50">
      
-     
+      {/* Hero Image */}
+           <div className="w-full">
+             <img 
+               src={image4} 
+               alt="Get Started Hero" 
+               className="w-full h-96 object-cover"
+             />
+           </div>
 
       {/* Two Column Layout */}
       <div className="max-w-7xl mx-auto px-4 py-16">
@@ -105,7 +113,7 @@ function Certificates() {
               <p className="text-base text-gray-700 leading-relaxed mb-4">
                 Build a comprehensive portfolio of credentials that demonstrate your commitment to professional excellence and continuous learning throughout your healthcare career.
               </p>
-              <img src={image4} alt="Career advancement" className="w-full h-auto rounded-lg mb-4" />
+              <img src={imagel} alt="Career advancement" className="w-full h-auto rounded-lg mb-4" />
             </div>
 
             {/* Section 5 */}

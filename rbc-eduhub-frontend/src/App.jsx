@@ -5,6 +5,8 @@ import SubNavbar from './component/subnavbar';
 import Getstarted from './component/landingpages/Getstarted';
 import About from './component/landingpages/About';
 import Contact from './component/landingpages/Contact';
+import Categories from './component/landingpages/Categories';
+import Instructors from './component/landingpages/Instructors';
 import Login from './component/auth/Login';
 import Footer from './component/footer';
 import Certificates from './component/landingpages/certificates';
@@ -60,6 +62,20 @@ function App() {
                 <Footer />
               </>
             } />
+            <Route path="/categories" element={
+              <>
+                <SubNavbar />
+                <Categories />
+                <Footer />
+              </>
+            } />
+              <Route path="/instructors" element={
+                <>
+                  <SubNavbar />
+                  <Instructors />
+                  <Footer />
+                </>
+              } />
              <Route path="/certificates" element={
               <>
                 <SubNavbar />
