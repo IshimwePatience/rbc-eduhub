@@ -21,7 +21,7 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="bg-stone-200 shadow-md border-b-4 border-blue-500 fixed top-0 left-0 right-0 z-[100]">
+      <nav className="bg-stone-200 shadow-md border-b-4 border-blue-500 fixed top-0 left-0 right-0 z-[9999]">
         <div className="w-full px-3 sm:px-3 lg:px-3">
           <div className="flex justify-between items-center h-8">
             {/* Desktop Menu */}
@@ -70,9 +70,6 @@ const Navbar = () => {
           </div>
         </div>
       </nav>
-
-      {/* Spacer to prevent content from going under fixed navbar */}
-      <div className="h-8"></div>
 
       {/* Mobile Menu - Fullscreen Overlay */}
       {isMobileMenuOpen && (
