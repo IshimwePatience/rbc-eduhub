@@ -88,9 +88,9 @@ function Categories() {
     <div className="min-h-screen bg-white">
       {/* Header Section */}
       <div className="max-w-7xl mx-auto px-4 py-12">
-        <div className="flex items-center gap-3 mb-8">
+        <div className="flex items-center mb-8">
           <h1 className="text-3xl font-bold text-gray-800">Explore</h1>
-          <div className="bg-blue-600 text-white px-6 py-2 rounded text-3xl font-bold">
+          <div className="text-blue-600 px-3 py-2 rounded text-3xl font-bold">
             Categories
           </div>
         </div>
@@ -99,27 +99,27 @@ function Categories() {
       {/* Main Categories */}
       <div className="max-w-7xl mx-auto px-4 pb-8 border-b border-gray-200">
         <div className="flex flex-wrap gap-4 mb-8">
-          <button className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:text-gray-900 font-medium group">
+          <button className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:text-blue-600 font-medium group">
             <Stethoscope size={20} className="text-gray-400 group-hover:text-gray-600 transition-colors opacity-50" />
             Clinical Medicine
           </button>
-          <button className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:text-gray-900 font-medium group">
+          <button className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:text-blue-600 font-medium group">
             <Heart size={20} className="text-gray-400 group-hover:text-gray-600 transition-colors opacity-50" />
             Nursing
           </button>
-          <button className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:text-gray-900 font-medium group">
+          <button className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:text-blue-600 font-medium group">
             <TrendingUp size={20} className="text-gray-400 group-hover:text-gray-600 transition-colors opacity-50" />
             Public Health
           </button>
-          <button className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:text-gray-900 font-medium group">
+          <button className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:text-blue-600 font-medium group">
             <Beaker size={20} className="text-gray-400 group-hover:text-gray-600 transition-colors opacity-50" />
             Laboratory Science
           </button>
-          <button className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:text-gray-900 font-medium group">
+          <button className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:text-blue-600 font-medium group">
             <Pill size={20} className="text-gray-400 group-hover:text-gray-600 transition-colors opacity-50" />
             Pharmacy
           </button>
-          <button className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:text-gray-900 font-medium group">
+          <button className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:text-blue-600 font-medium group">
             <ImageIcon size={20} className="text-gray-400 group-hover:text-gray-600 transition-colors opacity-50" />
             Medical Imaging
           </button>
@@ -127,15 +127,15 @@ function Categories() {
 
         {/* Sub Categories */}
         <div className="flex flex-wrap gap-2">
-          <button className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:text-gray-900 font-medium group">
+          <button className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:text-blue-600 font-medium group">
             <Building2 size={20} className="text-gray-400 group-hover:text-gray-600 transition-colors opacity-50" />
             Hospital Administration
           </button>
-          <button className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:text-gray-900 font-medium group">
+          <button className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:text-blue-600 font-medium group">
             <Zap size={20} className="text-gray-400 group-hover:text-gray-600 transition-colors opacity-50" />
             Pharmaceuticals
           </button>
-          <button className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:text-gray-900 font-medium group">
+          <button className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:text-blue-600 font-medium group">
             <Microscope size={20} className="text-gray-400 group-hover:text-gray-600 transition-colors opacity-50" />
             Medical Research
           </button>
