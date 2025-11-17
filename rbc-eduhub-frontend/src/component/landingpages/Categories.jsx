@@ -85,7 +85,7 @@ function Categories() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-[#FCFCFD]">
       {/* Header Section */}
       <div className="max-w-7xl mx-auto px-4 py-12">
         <div className="flex items-center mb-8">
