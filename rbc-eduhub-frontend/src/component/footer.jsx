@@ -17,7 +17,7 @@ function Footer() {
   };
 
   return (
-    <footer className="bg-stone-200 text-gray-900 py-6 md:py-6 w-full overflow-hidden">
+    <footer className="bg-[#002035] text-white py-6 md:py-6 w-full overflow-hidden">
       <div className="max-w-7xl mx-auto px-2 sm:px-2 w-full">
         
         {/* Desktop Grid - Hidden on Mobile */}
@@ -25,22 +25,22 @@ function Footer() {
           
           {/* Company Info & Locations */}
           <div className="min-w-0">
-             <h3 className="text-xl md:text-2xl font-proxima font-bold mb-4 md:mb-6 text-gray-900">RBC EduHub <span className="text-blue-600 font-bold">.</span></h3>
+             <h3 className="text-xl md:text-2xl font-proxima font-bold mb-4 md:mb-6 text-white">RBC EduHub <span className="text-blue-600 font-bold">.</span></h3>
             
             <div className="space-y-3 xl:space-y-4 text-sm">
               <div>
-                 <h4 className="font-semibold font-proxima  mb-2 text-gray-900">Rwanda Office</h4>
-                <p className="text-gray-900 font-proxima  leading-relaxed">KG 644 St, Kigali,</p>
-                <p className="text-gray-900 font-proxima ">Kimihurura | Kigali | Rwanda</p>
-                 <p className="text-gray-900 font-proxima ">P.O. Box 7162 Kigali, Rwanda</p>
+                 <h4 className="font-semibold font-proxima  mb-2 text-white">Rwanda Office</h4>
+                <p className="text-white font-proxima  leading-relaxed">KG 644 St, Kigali,</p>
+                <p className="text-white font-proxima ">Kimihurura | Kigali | Rwanda</p>
+                 <p className="text-white font-proxima ">P.O. Box 7162 Kigali, Rwanda</p>
               </div>
             </div>
           </div>
 
           {/* Learning Column */}
           <div className="min-w-0">
-            <h4 className="font-bold font-proxima  mb-4 text-gray-900">Learning</h4>
-            <ul className="space-y-3 text-sm font-proxima text-gray-900">
+            <h4 className="font-bold font-proxima  mb-4 tewhite">Learning</h4>
+            <ul className="space-y-3 text-sm font-proxima tewhite">
               <li>
                 <Link to="/Getstarted" className="hover:text-blue-400 transition-colors inline-block">
                   Get Started
@@ -71,8 +71,8 @@ function Footer() {
 
           {/* Resources Column */}
           <div className="min-w-0">
-            <h4 className="font-bold font-proxima  mb-4 text-gray-900">Resources</h4>
-            <ul className="space-y-3 text-sm font-proxima  text-gray-900">
+            <h4 className="font-bold font-proxima  mb-4 text-white">Resources</h4>
+            <ul className="space-y-3 text-sm font-proxima  text-white">
               <li>
                 <Link to="/instructors" className="hover:text-blue-400 transition-colors inline-block">
                   Instructors
@@ -93,8 +93,8 @@ function Footer() {
 
           {/* About Us Column */}
           <div className="min-w-0">
-            <h4 className="font-bold font-proxima mb-4 text-gray-900">About Us</h4>
-            <ul className="space-y-3 text-sm text-gray-900">
+            <h4 className="font-bold font-proxima mb-4 text-white">About Us</h4>
+            <ul className="space-y-3 text-sm text-white">
               <li>
                 <Link to="/about" className="hover:text-blue-400 transition-colors inline-block">
                   About
@@ -103,8 +103,8 @@ function Footer() {
             </ul>
 
             <div className="mt-6 xl:mt-8">
-              <h4 className="font-bold font-proxima  mb-4 text-gray-900">Contact Us</h4>
-              <Link to="/contact" className="text-sm font-proxima text-gray-900 hover:text-blue-400 transition-colors inline-block">
+              <h4 className="font-bold font-proxima  mb-4 text-white">Contact Us</h4>
+              <Link to="/contact" className="text-sm font-proxima text-white hover:text-blue-400 transition-colors inline-block">
                 Let's Connect
               </Link>
             </div>

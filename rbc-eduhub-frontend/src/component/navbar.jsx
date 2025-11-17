@@ -21,7 +21,7 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="bg-stone-200 shadow-md border-b-4 border-blue-500 fixed top-0 left-0 right-0 z-[9999]">
+      <nav className="bg-[#004370] shadow-md border-b-4 border-blue-500 fixed top-0 left-0 right-0 z-[9999]">
         <div className="w-full px-3 sm:px-3 lg:px-3">
           <div className="flex justify-between items-center h-8">
             {/* Desktop Menu */}
@@ -29,7 +29,7 @@ const Navbar = () => {
               <div className="flex items-center space-x-4">
                 <Link 
                   to="/login" 
-                  className="text-gray-700 hover:text-blue-600 font-medium transition-colors"
+                  className="text-white hover:text-blue-600 font-medium transition-colors"
                 >
                   Login
                 </Link>

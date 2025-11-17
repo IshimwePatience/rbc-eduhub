@@ -57,9 +57,9 @@ const SubNavbar = () => {
 
   return (
     <>
-      <div className="bg-white shadow-sm relative z-10 pt-8">
+      <div className="bg-[#FCFCFD] shadow-sm relative z-10 pt-8">
         {/* Top Utility Bar */}
-        <div className="bg-white">
+        <div className="bg-[#FCFCFD]">
           <div className="max-w-7xl mx-auto px-6">
             <div className="flex items-center justify-end space-x-6 h-10">
               <Link to="/partners" className="text-sm text-gray-700 hover:text-gray-900">
@@ -76,7 +76,7 @@ const SubNavbar = () => {
         </div>
 
         {/* Main Navigation Bar */}
-        <div className="bg-white">
+        <div className="bg-[#FCFCFD]">
           <div className="max-w-7xl mx-auto px-6">
             <div className="flex items-center justify-between h-20">
                {/* Logo */}
@@ -172,7 +172,7 @@ const SubNavbar = () => {
           </div>
 
           {/* Large Search Title */}
-          <h1 className="text-6xl font-light text-gray-400 mb-8">Search</h1>
+          <h1 className="text-6xl font-light text-white mb-8">Search</h1>
 
           {/* Search Input */}
           <div className="relative mb-8">

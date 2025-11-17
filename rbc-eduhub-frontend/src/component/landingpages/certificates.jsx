@@ -30,7 +30,7 @@ function Certificates() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-[#FCFCFD]">
      
       {/* Hero Image */}
            <div className="w-full">
@@ -131,7 +131,7 @@ function Certificates() {
             <div className="lg:sticky lg:top-8">
               
               {/* Dive Deeper Section */}
-              <div className="bg-stone-200 p-8 mb-8">
+              <div className="bg-gray-200 p-8 mb-8">
                 <h2 className="text-2xl font-bold text-gray-800 mb-6">DIVE DEEPER</h2>
                 
                 <div className="space-y-6 text-gray-700">
@@ -159,7 +159,7 @@ function Certificates() {
               </div>
 
               {/* Quick Links */}
-              <div className="bg-blue-600 p-8">
+              <div className="bg-[#004370] p-8">
                 <h3 className="text-xl font-bold text-gray-300 mb-4">QUICK LINKS</h3>
                 <ul className="space-y-3">
                   <li>

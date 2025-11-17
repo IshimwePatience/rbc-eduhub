@@ -40,7 +40,7 @@ function Instructors() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-[#FCFCFD]">
     {/* Hero Section */}
       <div className="bg-gray-100 text-gray-900">
         <div className="max-w-7xl mx-auto">
@@ -130,7 +130,7 @@ function Instructors() {
           {/* Sidebar - Right Side */}
           <div className="lg:w-1/3">
             <div className="lg:sticky lg:top-8">
-              <div className="bg-stone-200 p-6 mb-6">
+              <div className="bg-gray-200 p-6 mb-6">
                 <h3 className="text-xl font-bold text-gray-800 mb-4">Instructor Support</h3>
                 <p className="text-gray-700 text-sm mb-4">We provide comprehensive resources and support to help you succeed as an educator on our platform.</p>
                 <button className="w-full px-4 py-2 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors">Get Started</button>
