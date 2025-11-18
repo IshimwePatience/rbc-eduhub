@@ -33,7 +33,12 @@ export default function AIWidget() {
       const res = await callAI(userMessage, {});
       setConversations(prev => [...prev, { type: 'ai', content: res.generated || JSON.stringify(res, null, 2) }]);
     } catch (err) {
-      setError(err.message || String(err));
+      const errorMessage = err.message || String(err);
+      if (!navigator.onLine || errorMessage.includes('fetch failed') || errorMessage.includes('network') || errorMessage.includes('Failed to fetch')) {
+        setError('No internet connection');
+      } else {
+        setError(errorMessage);
+      }
     } finally {
       setLoading(false);
     }
@@ -198,15 +203,24 @@ export default function AIWidget() {
 
               {/* Conversation History */}
               {(error || conversations.length > 0) && (
-                <div className="space-y-3 pb-4">
+                <div className="space-y-3 pb-4 px-5">
                   {error && (
                     <div className="bg-red-500/20 border-l-4 border-red-400 p-4 rounded-lg">
                       <div className="flex items-start gap-3">
-                        <svg className="w-5 h-5 text-red-300 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
-                        </svg>
+                        {error === 'No internet connection' ? (
+                          <svg className="w-6 h-6 text-red-300 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M18.364 5.636a9 9 0 010 12.728m0 0l-2.829-2.829m2.829 2.829L21 21M15.536 8.464a5 5 0 010 7.072m0 0l-2.829-2.829m-4.243 2.829a5 5 0 01-7.072 0M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                            <line x1="3" y1="3" x2="21" y2="21" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" />
+                          </svg>
+                        ) : (
+                          <svg className="w-5 h-5 text-red-300 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                          </svg>
+                        )}
                         <div>
-                          <div className="text-sm font-semibold text-red-200">Error</div>
+                          <div className="text-sm font-semibold text-red-200">
+                            {error === 'No internet connection' ? 'No Internet Connection' : 'Error'}
+                          </div>
                           <div className="text-sm text-red-100 mt-1">{error}</div>
                         </div>
                       </div>
