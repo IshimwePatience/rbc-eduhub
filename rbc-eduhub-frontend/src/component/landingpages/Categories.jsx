@@ -1,18 +1,42 @@
 import React, { useState, useEffect } from 'react';
 import AIWidget from '../AIWidget';
-import { ChevronDown, Stethoscope, Heart, TrendingUp, Beaker, Pill, ImageIcon, Building2, Zap, Microscope } from 'lucide-react';
+import { ChevronDown, Stethoscope, Heart, TrendingUp, Beaker, Pill, ImageIcon, Building2, Zap, Microscope, Plus, Pause } from 'lucide-react';
 
 function Categories() {
   const [selectedLevel, setSelectedLevel] = useState('Beginner');
   const [selectedCategory, setSelectedCategory] = useState('Popular');
   const [visibleCards, setVisibleCards] = useState(false);
   const [cardStyle, setCardStyle] = useState('grid');
+  const [expandedCard, setExpandedCard] = useState(null);
+  const [isHeroPlaying, setIsHeroPlaying] = useState(true);
 
   const levels = ['Beginner', 'Intermediate', 'Advanced', 'Professional'];
 
   const categoryFilters = ['Popular', 'Clinical Practice', 'Public Health', 'Healthcare Leadership', 'Nursing', 'Healthcare'];
 
-  // Sample courses data with placeholder images
+  // Hero cards data
+  const heroCards = [
+    {
+      id: 1,
+      title: 'Clinical Excellence',
+      image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&h=600&fit=crop',
+      description: 'Master advanced clinical skills and diagnostic techniques'
+    },
+    {
+      id: 2,
+      title: 'Nursing Care',
+      image: 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=800&h=600&fit=crop',
+      description: 'Excellence in patient care and nursing practice'
+    },
+    {
+      id: 3,
+      title: 'Public Health',
+      image: 'https://images.unsplash.com/photo-1584036561566-baf8f5f1b144?w=800&h=600&fit=crop',
+      description: 'Community health programs and disease prevention'
+    }
+  ];
+
+  // Sample courses data
   const courses = [
     {
       id: 1,
@@ -83,20 +107,113 @@ function Categories() {
     return () => observer.disconnect();
   }, []);
 
+  const toggleCard = (cardId) => {
+    setExpandedCard(expandedCard === cardId ? null : cardId);
+  };
+
   return (
     <div className="min-h-screen bg-[#FCFCFD]">
-      {/* Header Section */}
-      <div className="max-w-7xl mx-auto px-4 py-12">
-        <div className="flex items-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-800">Explore</h1>
-          <div className="text-blue-600 px-3 py-2 rounded text-3xl font-bold">
-            Categories
+      {/* Hero Section */}
+      <div className="relative h-[500px] overflow-hidden">
+        {/* Main Hero Background */}
+        <div className="absolute inset-0">
+          <img
+            src="https://images.unsplash.com/photo-1538108149393-fbbd81895907?w=1600&h=500&fit=crop"
+            alt="Healthcare Education"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#004370]/90 via-[#004370]/50 to-transparent"></div>
+        </div>
+
+        {/* Hero Content */}
+        <div className="relative h-full flex">
+          {/* Left side - Text Content */}
+          <div className="flex-1 max-w-3xl px-8 lg:px-16 flex items-end text-start">
+            <div className="text-white">
+              <h1 className="text-2xl lg:text-3xl font-bold mb-6">Healthcare Education</h1>
+              <p className="text-base lg:text-base mb-8 leading-relaxed">
+                Advance your career with professional courses designed by healthcare experts and leading institutions.
+              </p>
+              <button className="px-8 py-3 underline text-white font-semibold rounded-lg transition-colors text-lg">
+                Learn More
+              </button>
+            </div>
           </div>
+
+          {/* Right side - Expandable Cards */}
+          <div className="hidden lg:flex items-end pb-0 pr-0">
+            <div className="flex gap-0">
+              {heroCards.map((card, index) => (
+                <div
+                  key={card.id}
+                  className={`relative overflow-hidden transition-all duration-500 ease-in-out cursor-pointer ${
+                    expandedCard === card.id ? 'w-[400px]' : 'w-[280px]'
+                  }`}
+                  style={{ height: '500px' }}
+                  onClick={() => toggleCard(card.id)}
+                >
+                  {/* Card Image */}
+                  <img
+                    src={card.image}
+                    alt={card.title}
+                    className="w-full h-full object-cover"
+                  />
+                  
+                  {/* Overlay Gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#004370]/90 via-[#004370]/50 to-transparent"></div>
+                  
+                  {/* Card Content */}
+                  <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+                    <div className="flex items-start justify-between mb-3">
+                      <h3 className="text-2xl font-bold">{card.title}</h3>
+                      <button
+                        className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center hover:bg-white/30 transition-all flex-shrink-0 ml-3"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          toggleCard(card.id);
+                        }}
+                      >
+                        <Plus 
+                          size={24} 
+                          className={`transition-transform duration-300 ${
+                            expandedCard === card.id ? 'rotate-45' : 'rotate-0'
+                          }`}
+                        />
+                      </button>
+                    </div>
+                    
+                    {/* Expanded Content */}
+                    <div
+                      className={`overflow-hidden transition-all duration-500 ${
+                        expandedCard === card.id ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'
+                      }`}
+                    >
+                      <p className="text-white/90 text-base leading-relaxed">
+                        {card.description}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Pause/Play Button */}
+          <button
+            className="absolute top-6 right-6 w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center hover:bg-white/30 transition-all"
+            onClick={() => setIsHeroPlaying(!isHeroPlaying)}
+          >
+            {isHeroPlaying ? (
+              <Pause size={20} className="text-white" />
+            ) : (
+              <div className="w-0 h-0 border-l-[12px] border-l-white border-t-[8px] border-t-transparent border-b-[8px] border-b-transparent ml-1"></div>
+            )}
+          </button>
         </div>
       </div>
 
       {/* Main Categories */}
-      <div className="max-w-7xl mx-auto px-4 pb-8 border-b border-gray-200">
+      <div className="max-w-7xl mx-auto px-4 py-8 border-b border-gray-200">
         <div className="flex flex-wrap gap-4 mb-8">
           <button className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:text-blue-600 font-medium group">
             <Stethoscope size={20} className="text-gray-400 group-hover:text-gray-600 transition-colors opacity-50" />
@@ -225,7 +342,7 @@ function Categories() {
           {/* Course Cards Grid */}
           <div className="lg:col-span-3">
             {cardStyle === 'grid' ? (
-              // Grid Layout - Side by side cards like the World Bank image
+              // Grid Layout
               <div className="courses-cards grid grid-cols-1 md:grid-cols-2 gap-6">
                 {filteredCourses.map((course, index) => (
                   <div
@@ -236,7 +353,7 @@ function Categories() {
                     }}
                   >
                     <div className="flex h-full">
-                      {/* Left side - Image (40% width) */}
+                      {/* Left side - Image */}
                       <div className="relative w-2/5 min-h-[280px]">
                         <img
                           src={course.image}
@@ -245,7 +362,7 @@ function Categories() {
                         />
                       </div>
 
-                      {/* Right side - Content (60% width) */}
+                      {/* Right side - Content */}
                       <div className="w-3/5 p-6 flex flex-col justify-between">
                         <div>
                           <h4 className="text-xl font-bold text-gray-900 mb-3 leading-tight">
@@ -256,7 +373,6 @@ function Categories() {
                           </p>
                         </div>
 
-                        {/* Bottom section with providers and link */}
                         <div>
                           <p className="text-xs font-semibold text-gray-700 mb-3">Offered by</p>
                           <div className="flex items-center justify-between">
@@ -281,7 +397,7 @@ function Categories() {
                 ))}
               </div>
             ) : (
-              // Horizontal Layout (Full width cards)
+              // Horizontal Layout
               <div className="courses-cards space-y-6">
                 {filteredCourses.map((course, index) => (
                   <div
@@ -295,12 +411,11 @@ function Categories() {
                     }}
                   >
                     <div className="flex flex-col md:flex-row items-stretch">
-                      {/* Left Content (65% width) */}
+                      {/* Left Content */}
                       <div className="flex-1 md:w-[65%] p-6 md:p-8 flex flex-col justify-center">
                         <h4 className="text-2xl font-bold text-gray-900 mb-3">{course.title}</h4>
                         <p className="text-gray-600 text-sm leading-relaxed mb-6">{course.description}</p>
 
-                        {/* Providers */}
                         <div>
                           <p className="text-xs font-semibold text-gray-700 mb-3">Offered by</p>
                           <div className="flex gap-2">
@@ -316,7 +431,7 @@ function Categories() {
                         </div>
                       </div>
 
-                      {/* Right Image (35% width) */}
+                      {/* Right Image */}
                       <div className="relative w-full md:w-[35%] h-56 md:h-auto min-h-64 overflow-hidden">
                         <img
                           src={course.image}
@@ -353,7 +468,7 @@ function Categories() {
           )}
         </div>
       </div>
-    <AIWidget />
+      <AIWidget />
     </div>
   );
 }
