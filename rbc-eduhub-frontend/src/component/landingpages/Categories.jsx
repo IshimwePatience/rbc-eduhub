@@ -1,19 +1,18 @@
 import React, { useState, useEffect } from 'react';
+import AIWidget from '../AIWidget';
 import { ChevronDown, Stethoscope, Heart, TrendingUp, Beaker, Pill, ImageIcon, Building2, Zap, Microscope } from 'lucide-react';
-import image1 from '../../assets/images/1.jpg';
-import image2 from '../../assets/images/2.jpg';
 
 function Categories() {
   const [selectedLevel, setSelectedLevel] = useState('Beginner');
   const [selectedCategory, setSelectedCategory] = useState('Popular');
   const [visibleCards, setVisibleCards] = useState(false);
-  const [cardStyle, setCardStyle] = useState('grid'); // 'grid' or 'horizontal'
+  const [cardStyle, setCardStyle] = useState('grid');
 
   const levels = ['Beginner', 'Intermediate', 'Advanced', 'Professional'];
 
   const categoryFilters = ['Popular', 'Clinical Practice', 'Public Health', 'Healthcare Leadership', 'Nursing', 'Healthcare'];
 
-  // Sample courses data with images
+  // Sample courses data with placeholder images
   const courses = [
     {
       id: 1,
@@ -21,7 +20,7 @@ function Categories() {
       description: 'Master the essential diagnostic techniques used in modern clinical practice. Learn proper patient assessment and examination procedures.',
       category: 'Clinical Practice',
       level: 'Beginner',
-      image: image1,
+      image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=500&h=400&fit=crop',
       providers: ['RBC', 'MOH', 'KUTH'],
       bgColor: 'bg-yellow-300',
     },
@@ -31,7 +30,7 @@ function Categories() {
       description: 'Comprehensive nursing course covering patient care, assessment techniques, and professional development in healthcare settings.',
       category: 'Nursing',
       level: 'Beginner',
-      image: image2,
+      image: 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=500&h=400&fit=crop',
       providers: ['RBC'],
       bgColor: 'bg-blue-300',
     },
@@ -41,7 +40,7 @@ function Categories() {
       description: 'Learn to design, implement, and evaluate public health programs. Focus on disease prevention, health promotion, and community engagement.',
       category: 'Public Health',
       level: 'Intermediate',
-      image: image1,
+      image: 'https://images.unsplash.com/photo-1584036561566-baf8f5f1b144?w=500&h=400&fit=crop',
       providers: ['MOH', 'RBC'],
       bgColor: 'bg-green-300',
     },
@@ -51,7 +50,7 @@ function Categories() {
       description: 'Develop leadership skills for healthcare management. Master team building, strategic planning, and organizational development.',
       category: 'Healthcare Leadership',
       level: 'Advanced',
-      image: image2,
+      image: 'https://images.unsplash.com/photo-1551076805-e1869033e561?w=500&h=400&fit=crop',
       providers: ['RBC'],
       bgColor: 'bg-purple-300',
     },
@@ -226,46 +225,55 @@ function Categories() {
           {/* Course Cards Grid */}
           <div className="lg:col-span-3">
             {cardStyle === 'grid' ? (
-              // Grid Layout
+              // Grid Layout - Side by side cards like the World Bank image
               <div className="courses-cards grid grid-cols-1 md:grid-cols-2 gap-6">
                 {filteredCourses.map((course, index) => (
                   <div
                     key={course.id}
-                    className={`bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-all duration-300 transform ${
-                      visibleCards ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
-                    }`}
                     style={{
                       transition: 'all 0.6s ease',
                       transitionDelay: `${index * 100}ms`,
                     }}
                   >
-                    {/* Image Container with Yellow Accent */}
-                    <div className="relative h-64 overflow-hidden">
-                      <img
-                        src={course.image}
-                        alt={course.title}
-                        className="w-full h-full object-cover"
-                      />
-                      <div className={`absolute bottom-0 right-0 w-24 h-24 ${course.bgColor} opacity-70`}></div>
-                    </div>
+                    <div className="flex h-full">
+                      {/* Left side - Image (40% width) */}
+                      <div className="relative w-2/5 min-h-[280px]">
+                        <img
+                          src={course.image}
+                          alt={course.title}
+                          className="w-full h-full rounded-lg object-cover"
+                        />
+                      </div>
 
-                    {/* Content */}
-                    <div className="p-6">
-                      <h4 className="text-lg font-bold text-gray-800 mb-3">{course.title}</h4>
-                      <p className="text-gray-600 text-sm mb-4 leading-relaxed">{course.description}</p>
+                      {/* Right side - Content (60% width) */}
+                      <div className="w-3/5 p-6 flex flex-col justify-between">
+                        <div>
+                          <h4 className="text-xl font-bold text-gray-900 mb-3 leading-tight">
+                            {course.title}
+                          </h4>
+                          <p className="text-gray-600 text-sm mb-4 leading-relaxed line-clamp-4">
+                            {course.description}
+                          </p>
+                        </div>
 
-                      {/* Providers */}
-                      <div>
-                        <p className="text-xs font-semibold text-gray-700 mb-3">Offered by</p>
-                        <div className="flex gap-2">
-                          {course.providers.map((provider) => (
-                            <div
-                              key={provider}
-                              className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center text-xs font-bold text-gray-700"
-                            >
-                              {provider[0]}
+                        {/* Bottom section with providers and link */}
+                        <div>
+                          <p className="text-xs font-semibold text-gray-700 mb-3">Offered by</p>
+                          <div className="flex items-center justify-between">
+                            <div className="flex gap-2">
+                              {course.providers.map((provider) => (
+                                <div
+                                  key={provider}
+                                  className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center text-xs font-bold text-gray-700"
+                                >
+                                  {provider[0]}
+                                </div>
+                              ))}
                             </div>
-                          ))}
+                            <button className="text-blue-600 hover:text-blue-800 font-semibold text-sm underline">
+                              Learn More
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -273,12 +281,12 @@ function Categories() {
                 ))}
               </div>
             ) : (
-              // Horizontal Layout
-              <div className="courses-cards space-y-6 max-w-2xl">
+              // Horizontal Layout (Full width cards)
+              <div className="courses-cards space-y-6">
                 {filteredCourses.map((course, index) => (
                   <div
                     key={course.id}
-                    className={`bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-all duration-300 transform ${
+                    className={`bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 transform ${
                       visibleCards ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
                     }`}
                     style={{
@@ -287,9 +295,9 @@ function Categories() {
                     }}
                   >
                     <div className="flex flex-col md:flex-row items-stretch">
-                      {/* Left Content */}
-                      <div className="flex-1 p-6 md:p-8 flex flex-col justify-center">
-                        <h4 className="text-2xl font-bold text-gray-800 mb-3">{course.title}</h4>
+                      {/* Left Content (65% width) */}
+                      <div className="flex-1 md:w-[65%] p-6 md:p-8 flex flex-col justify-center">
+                        <h4 className="text-2xl font-bold text-gray-900 mb-3">{course.title}</h4>
                         <p className="text-gray-600 text-sm leading-relaxed mb-6">{course.description}</p>
 
                         {/* Providers */}
@@ -308,15 +316,13 @@ function Categories() {
                         </div>
                       </div>
 
-                      {/* Right Image with Colored Accent */}
-                      <div className="relative w-full md:w-56 h-56 md:h-auto min-h-64 overflow-hidden">
+                      {/* Right Image (35% width) */}
+                      <div className="relative w-full md:w-[35%] h-56 md:h-auto min-h-64 overflow-hidden">
                         <img
                           src={course.image}
                           alt={course.title}
                           className="w-full h-full object-cover"
                         />
-                        {/* Colored accent shape */}
-                        <div className={`absolute bottom-0 right-0 w-24 h-24 ${course.bgColor} opacity-60 transform -skew-y-12`}></div>
                       </div>
                     </div>
                   </div>
@@ -347,6 +353,7 @@ function Categories() {
           )}
         </div>
       </div>
+    <AIWidget />
     </div>
   );
 }

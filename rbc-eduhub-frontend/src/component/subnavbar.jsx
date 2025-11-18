@@ -92,25 +92,25 @@ const SubNavbar = () => {
 
               {/* Center Navigation Links */}
               <nav className="hidden lg:flex items-center space-x-8 flex-1 justify-center">
-                <Link to="/getstarted" className="text-base font-medium text-gray-800 hover:text-gray-900">
+                <Link to="/getstarted" className="text-base font-bold text-gray-800 hover:text-gray-900">
                   Get Started
                 </Link>
-                <Link to="/courses" className="text-base font-medium text-gray-800 hover:text-gray-900">
+                <Link to="/courses" className="text-base font-bold text-gray-800 hover:text-gray-900">
                   All Courses
                 </Link>
-                <Link to="/categories" className="text-base font-medium text-gray-800 hover:text-gray-900">
+                <Link to="/categories" className="text-base font-bold text-gray-800 hover:text-gray-900">
                   Categories
                 </Link>
-                <Link to="/my-learning" className="text-base font-medium text-gray-800 hover:text-gray-900">
+                <Link to="/my-learning" className="text-base font-bold text-gray-800 hover:text-gray-900">
                   My Learning
                 </Link>
-                <Link to="/instructors" className="text-base font-medium text-gray-800 hover:text-gray-900">
+                <Link to="/instructors" className="text-base font-bold text-gray-800 hover:text-gray-900">
                   Instructors
                 </Link>
-                <Link to="/certificates" className="text-base font-medium text-gray-800 hover:text-gray-900">
+                <Link to="/certificates" className="text-base font-bold text-gray-800 hover:text-gray-900">
                   Certificates
                 </Link>
-                <Link to="/live-sessions" className="text-base font-medium text-gray-800 hover:text-gray-900">
+                <Link to="/live-sessions" className="text-base font-bold text-gray-800 hover:text-gray-900">
                   Live Sessions
                 </Link>
               </nav>

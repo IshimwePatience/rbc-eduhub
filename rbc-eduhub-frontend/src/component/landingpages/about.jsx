@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import AIWidget from '../AIWidget';
 import Part1 from '../../assets/images/part1.png';
 import Part2 from '../../assets/images/part2.png';
 import Part3 from '../../assets/images/part3.png';
@@ -168,7 +169,7 @@ function About() {
             <div className="lg:sticky lg:top-8">
               
               {/* Recognition Section */}
-              <div className="bg-gray-200 p-8">
+              <div className="bg-gray-200 p-8 border border-gray-300">
                 <h2 className="text-2xl font-bold text-gray-800 mb-6">Recognition from Rwanda's Healthcare Community</h2>
                 
                 <p className="text-sm text-gray-600 mb-6 leading-relaxed">
@@ -224,6 +225,7 @@ function About() {
 
         </div>
       </div>
+      <AIWidget />
     </div>
   );
 }

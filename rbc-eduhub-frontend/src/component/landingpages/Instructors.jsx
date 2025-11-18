@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Star, Award, Users, TrendingUp, Check, ArrowRight } from 'lucide-react';
+import AIWidget from '../AIWidget';
 
 // Placeholder images - replace with your actual imports
 import image4 from '../../assets/images/4.jpg';
@@ -161,6 +162,7 @@ function Instructors() {
           </div>
         </div>
       </div>
+      <AIWidget />
     </div>
   );
 }

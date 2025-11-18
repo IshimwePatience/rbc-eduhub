@@ -131,7 +131,7 @@ function Certificates() {
             <div className="lg:sticky lg:top-8">
               
               {/* Dive Deeper Section */}
-              <div className="bg-gray-200 p-8 mb-8">
+              <div className="bg-gray-200 p-8 mb-8 border border-gray-300">
                 <h2 className="text-2xl font-bold text-gray-800 mb-6">DIVE DEEPER</h2>
                 
                 <div className="space-y-6 text-gray-700">

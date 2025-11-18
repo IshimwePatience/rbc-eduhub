@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import AIWidget from '../AIWidget';
 
 import image1 from '../../assets/images/1.jpg';
 import image2 from '../../assets/images/2.jpg';
@@ -156,7 +157,7 @@ function GetStarted() {
             <div className="lg:sticky lg:top-8">
               
               {/* Dive Deeper Section */}
-              <div className="bg-gray-200 p-8 mb-8">
+              <div className="bg-gray-200 p-8 mb-8 border border-gray-300">
                 <h2 className="text-2xl font-bold text-gray-800 mb-6">DIVE DEEPER</h2>
                 
                 <div className="space-y-6 text-gray-700">
@@ -207,6 +208,7 @@ function GetStarted() {
 
         </div>
       </div>
+      <AIWidget />
     </div>
   );
 }
