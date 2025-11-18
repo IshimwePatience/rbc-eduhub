@@ -37,4 +37,31 @@ export async function callAI(prompt, options = {}) {
 	return json;
 }
 
-export default { callAI };
+ 
+
+// ---- Auth helpers ----
+export async function login(email, password, recaptchaToken) {
+	return await postJSON('/api/auth/login', { email, password, recaptchaToken }, { withCredentials: true });
+}
+
+export async function signup(payload) {
+	return await postJSON('/api/auth/signup', payload, { withCredentials: true });
+}
+
+export async function refreshAuth() {
+	return await postJSON('/api/auth/refresh-token', {}, { withCredentials: true });
+}
+
+export async function logout() {
+	return await postJSON('/api/auth/logout', {}, { withCredentials: true });
+}
+
+export function getGoogleAuthUrl() {
+	return `${API_BASE}/api/auth/google`;
+}
+
+export function getLinkedInAuthUrl() {
+	return `${API_BASE}/api/auth/linkedin`;
+}
+
+export default { callAI, login, signup, refreshAuth, logout, getGoogleAuthUrl, getLinkedInAuthUrl };

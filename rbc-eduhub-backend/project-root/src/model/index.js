@@ -5,6 +5,7 @@
 const User = require('./User & Auth/User');
 const Role = require('./User & Auth/Role');
 const Session = require('./User & Auth/Session');
+const RefreshToken = require('./User & Auth/RefreshToken');
 const PasswordReset = require('./User & Auth/PasswordReset');
 const MFAToken = require('./User & Auth/MFAToken');
 const UserProfile = require('./User & Auth/UserProfile');
@@ -98,6 +99,10 @@ User.belongsTo(Role, { foreignKey: 'roleId' });
 // User sessions & security
 User.hasMany(Session, { foreignKey: 'userId' });
 Session.belongsTo(User, { foreignKey: 'userId' });
+
+// Refresh tokens (long-lived sessions)
+User.hasMany(RefreshToken, { foreignKey: 'userId' });
+RefreshToken.belongsTo(User, { foreignKey: 'userId' });
 
 User.hasOne(UserProfile, { foreignKey: 'userId' });
 UserProfile.belongsTo(User, { foreignKey: 'userId' });
@@ -280,6 +285,7 @@ module.exports = {
   MFAToken,
   UserProfile,
   SocialAuth,
+  RefreshToken,
   Course,
   CourseCategory,
   CourseModule,

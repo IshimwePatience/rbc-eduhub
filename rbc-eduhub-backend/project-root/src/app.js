@@ -1,9 +1,12 @@
 const path = require('path');
 require('dotenv').config({ path: path.join(__dirname, '../.env') });
 const express = require('express');
+const cookieParser = require('cookie-parser');
 const helmet = require('helmet');
 const cors = require('cors');
 const rateLimit = require('express-rate-limit');
+const passport = require('passport');
+const setupPassport = require('./config/passport');
 const { connectDB, sequelize } = require('./config/database');
 
 const app = express();
@@ -17,6 +20,15 @@ app.use(cors({ origin: frontendOrigin, credentials: true }));
 // Removed: app.options('*', cors(...)) - already handled by app.use(cors(...))
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
+// Initialize passport strategies (if configured)
+try {
+  setupPassport();
+  app.use(passport.initialize());
+  console.log('✅ Passport initialized');
+} catch (e) {
+  console.warn('⚠️ Passport setup skipped or failed:', e.message || e);
+}
 app.use(rateLimit({ windowMs: 15 * 60 * 1000, max: 1000 }));
 
 app.get('/health', (req, res) => res.json({ status: 'ok' }));

@@ -4,10 +4,14 @@ const bcrypt = require('bcryptjs');
 const speakeasy = require('speakeasy');
 const qrcode = require('qrcode');
 const { sequelize } = require('../config/database');
+const { v4: uuidv4 } = require('uuid');
 
 // Models
 const User = require('../model/User & Auth/User');
 const Role = require('../model/User & Auth/Role');
+
+// Token service for refresh-token management
+const tokenService = require('./token.service');
 
 function assertEnv() {
   if (!process.env.JWT_SECRET) {
@@ -91,7 +95,7 @@ async function signUp({
   });
 }
 
-async function login({ email, password }) {
+async function login({ email, password }, { ip, userAgent } = {}) {
   assertEnv();
   if (!email || !password) throw new Error('email and password are required');
 
@@ -117,8 +121,100 @@ async function login({ email, password }) {
 
   await user.update({ lastLogin: new Date() });
 
-  const token = jwt.sign({ sub: user.id, roleId: user.roleId }, process.env.JWT_SECRET, { expiresIn: '7d' });
-  return { user: toPublicUser(user), token };
+  // create access token
+  const accessExpiry = process.env.JWT_ACCESS_EXPIRES || '15m';
+  const accessToken = jwt.sign({ sub: user.id, roleId: user.roleId, jti: uuidv4() }, process.env.JWT_SECRET, { expiresIn: accessExpiry });
+
+  // create refresh token and persist hashed version
+  const { token: refreshTokenPlain, expires } = tokenService.generateRefreshToken();
+  await tokenService.saveRefreshToken(user.id, refreshTokenPlain, expires, ip, userAgent);
+
+  return { user: toPublicUser(user), accessToken, refreshToken: refreshTokenPlain, refreshTokenExpires: expires };
+}
+
+async function refreshAuth(oldRefreshToken, ip, userAgent) {
+  assertEnv();
+  if (!oldRefreshToken) throw new Error('Refresh token required');
+
+  const rec = await tokenService.findRefreshToken(oldRefreshToken);
+  if (!rec || rec.revoked) throw new Error('Invalid refresh token');
+  if (new Date() > new Date(rec.expiresAt)) throw new Error('Refresh token expired');
+
+  const user = await User.findByPk(rec.userId);
+  if (!user) throw new Error('User not found');
+
+  // generate new access token
+  const accessExpiry = process.env.JWT_ACCESS_EXPIRES || '15m';
+  const accessToken = jwt.sign({ sub: user.id, roleId: user.roleId, jti: uuidv4() }, process.env.JWT_SECRET, { expiresIn: accessExpiry });
+
+  // rotate refresh token
+  const { newToken } = await tokenService.rotateRefreshToken(oldRefreshToken, user.id, ip, userAgent);
+
+  return { user: toPublicUser(user), accessToken, refreshToken: newToken };
+}
+
+async function logout(refreshToken, ip) {
+  if (!refreshToken) return null;
+  const hash = tokenService.hashToken(refreshToken);
+  return await tokenService.revokeRefreshTokenByHash(hash, ip);
+}
+
+async function createTokensForUser(user, { ip, userAgent } = {}) {
+  const { v4: uuidv4 } = require('uuid');
+  const accessExpiry = process.env.JWT_ACCESS_EXPIRES || '15m';
+  const accessToken = jwt.sign({ sub: user.id, roleId: user.roleId, jti: uuidv4() }, process.env.JWT_SECRET, { expiresIn: accessExpiry });
+  const { token: refreshTokenPlain, expires } = tokenService.generateRefreshToken();
+  await tokenService.saveRefreshToken(user.id, refreshTokenPlain, expires, ip, userAgent);
+  return { accessToken, refreshToken: refreshTokenPlain, refreshTokenExpires: expires };
+}
+
+async function socialSignIn(provider, profile, tokens = {}) {
+  // find or create SocialAuth record, link to existing user by email or create new user
+  const { SocialAuth } = require('../model');
+  // providerId field in profile: different providers have different shapes
+  const providerId = profile.id;
+  const email = (profile.emails && profile.emails[0] && profile.emails[0].value) ? profile.emails[0].value.toLowerCase() : null;
+  const displayName = profile.displayName || '';
+  const photo = (profile.photos && profile.photos[0] && profile.photos[0].value) ? profile.photos[0].value : null;
+
+  let social = await SocialAuth.findOne({ where: { provider, providerId } });
+  const UserModel = require('../model/User & Auth/User');
+  if (social) {
+    // update tokens
+    await social.update({
+      accessToken: tokens.accessToken || social.accessToken,
+      refreshToken: tokens.refreshToken || social.refreshToken,
+      tokenExpiresAt: tokens.expiresAt || social.tokenExpiresAt,
+      lastUsed: new Date(),
+      isActive: true,
+      displayName: displayName || social.displayName,
+      profilePhoto: photo || social.profilePhoto,
+      email: email || social.email
+    });
+    const user = await UserModel.findByPk(social.userId);
+    if (user) return user;
+  }
+
+  // not found by provider id: try to find user by email
+  if (email) {
+    const existingUser = await UserModel.findOne({ where: { email } });
+    if (existingUser) {
+      // create social record linked to existing user
+      social = await SocialAuth.create({ userId: existingUser.id, provider, providerId, email, displayName, profilePhoto: photo, accessToken: tokens.accessToken, refreshToken: tokens.refreshToken, tokenExpiresAt: tokens.expiresAt });
+      return existingUser;
+    }
+  }
+
+  // no user: auto-create a new user with default Learner role
+  const Role = require('../model/User & Auth/Role');
+  const role = await Role.findOne({ where: { name: 'Learner' } });
+  const nameParts = String(displayName || '').split(' ');
+  const firstName = nameParts.shift() || 'Social';
+  const lastName = nameParts.join(' ') || 'User';
+  const newUser = await UserModel.create({ firstName, lastName, email: email || `${provider}_${providerId}@example.local`, password: Math.random().toString(36).slice(2), roleId: role ? role.id : null, isVerified: !!email, isActive: true });
+  // create social record
+  await SocialAuth.create({ userId: newUser.id, provider, providerId, email: email || null, displayName, profilePhoto: photo, accessToken: tokens.accessToken, refreshToken: tokens.refreshToken, tokenExpiresAt: tokens.expiresAt });
+  return newUser;
 }
 
 async function mfaSetup(userId) {
@@ -177,6 +273,10 @@ async function mfaVerifyLogin(mfaToken, code) {
 module.exports = {
   signUp,
   login,
+  refreshAuth,
+  logout,
+  createTokensForUser,
+  socialSignIn,
   mfaSetup,
   mfaVerifySetup,
   mfaDisable,
