@@ -57,12 +57,23 @@ router.post('/set-role', async (req, res) => {
 		else if (roleName) role = await Role.findOne({ where: { name: roleName } });
 		if (!role) return res.status(400).json({ success: false, message: 'Invalid role' });
 
-		user.roleId = role.id;
-		await user.save();
-		const { signUp } = require('../services/auth.service');
-		// return public user
-		const authService = require('../services/auth.service');
-		return res.json({ success: true, user: authService.toPublicUser(user) });
+				user.roleId = role.id;
+				await user.save();
+				// Send welcome email with role name
+				const { sendMail } = require('../services/mailer.service');
+				await sendMail({
+					to: user.email,
+					subject: 'Welcome to RBC EduHub!',
+					template: 'welcome-success',
+					templateData: {
+						name: user.firstName,
+						roleName: role.name,
+						year: new Date().getFullYear()
+					}
+				});
+				// return public user
+				const authService = require('../services/auth.service');
+				return res.json({ success: true, user: authService.toPublicUser(user) });
 	} catch (e) {
 		return res.status(500).json({ success: false, message: e.message || 'Failed to set role' });
 	}
@@ -91,7 +102,7 @@ router.get('/google/callback', passport.authenticate('google', { session: false 
 });
 
 // Social auth (LinkedIn)
-router.get('/linkedin', passport.authenticate('linkedin'));
+router.get('/linkedin', passport.authenticate('linkedin', { scope: ['r_liteprofile', 'r_emailaddress'] }));
 router.get('/linkedin/callback', passport.authenticate('linkedin', { session: false }), async (req, res) => {
 	try {
 		const ip = req.ip || req.connection?.remoteAddress || '';

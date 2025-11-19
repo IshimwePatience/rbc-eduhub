@@ -206,7 +206,10 @@ async function socialSignIn(provider, profile, tokens = {}) {
       email: email || social.email
     });
     const user = await UserModel.findByPk(social.userId);
-    if (user) return user;
+    if (user) {
+      user.__isNew = false;
+      return user;
+    }
   }
 
   // not found by provider id: try to find user by email
@@ -226,7 +229,7 @@ async function socialSignIn(provider, profile, tokens = {}) {
   const lastName = nameParts.join(' ') || 'User';
   const newUser = await UserModel.create({ firstName, lastName, email: email || `${provider}_${providerId}@example.local`, password: Math.random().toString(36).slice(2), roleId: role ? role.id : null, isVerified: !!email, isActive: true });
   // mark as newly created so caller (passport) can detect and prompt for role selection
-  try { newUser.__isNew = true; } catch (e) { /* ignore */ }
+  newUser.__isNew = true;
   // create social record
   await SocialAuth.create({ userId: newUser.id, provider, providerId, email: email || null, displayName, profilePhoto: photo, accessToken: tokens.accessToken, refreshToken: tokens.refreshToken, tokenExpiresAt: tokens.expiresAt });
   return newUser;
@@ -296,4 +299,5 @@ module.exports = {
   mfaVerifySetup,
   mfaDisable,
   mfaVerifyLogin,
+  toPublicUser,
 };

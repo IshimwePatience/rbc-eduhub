@@ -77,11 +77,13 @@ function Signup() {
     setSuccess(true);
     setTimeout(() => navigate(`/verify-email?email=${encodeURIComponent(email)}`), 1500);
   } else {
-    setError('User already exists with this email');
+    setError(result?.message || 'User already exists with this email');
     setSuccess(false);
   }
     } catch (err) {
-      if (err?.message && /already in use|already exists/i.test(err.message)) {
+      if (err?.response && err.response.data && err.response.data.message) {
+        setError(err.response.data.message);
+      } else if (err?.message && /already in use|already exists/i.test(err.message)) {
         setError('User already exists with this email');
       } else {
         setError(err?.message || 'Signup failed');

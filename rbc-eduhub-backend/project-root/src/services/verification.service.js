@@ -82,23 +82,30 @@ async function verifyCode({ email, code, type = 'email_verification' }) {
   if (type === 'email_verification' && rec.signupData) {
     try {
       const { User, Role } = require('../model');
+      const { sendMail } = require('./mailer.service');
       const data = JSON.parse(rec.signupData);
 
       const exists = await User.findOne({ where: { email } });
       if (exists) throw new Error('User already exists');
 
       let roleId = data.roleId;
-      if (!roleId && data.roleName) {
-        const role = await Role.findOne({ where: { name: data.roleName } });
+      let roleName = data.roleName;
+      let role = null;
+      if (!roleId && roleName) {
+        role = await Role.findOne({ where: { name: roleName } });
         if (!role) throw new Error('Role not found');
         roleId = role.id;
+      } else if (roleId) {
+        role = await Role.findByPk(roleId);
+        if (!role) throw new Error('Role not found');
+        roleName = role.name;
       }
 
       if (!roleId) {
         throw new Error('Role ID or Role Name is required to create a user');
       }
 
-      await User.create({
+      const user = await User.create({
         firstName: data.firstName,
         lastName: data.lastName,
         email,
@@ -111,6 +118,18 @@ async function verifyCode({ email, code, type = 'email_verification' }) {
         resident: data.resident,
         isVerified: true,
         isActive: true,
+      });
+
+      // Send welcome email after successful signup
+      await sendMail({
+        to: user.email,
+        subject: 'Welcome to RBC EduHub!',
+        template: 'welcome-success',
+        templateData: {
+          name: user.firstName,
+          roleName: roleName || (role && role.name) || 'User',
+          year: new Date().getFullYear()
+        }
       });
     } catch (e) {
       throw e;

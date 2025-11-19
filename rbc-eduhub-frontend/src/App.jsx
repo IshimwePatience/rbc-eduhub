@@ -92,6 +92,7 @@ function App() {
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/verify-email" element={<VerifyEmail />} />
             <Route path="/auth/social-callback" element={<SocialCallback />} />
+            <Route path="/auth/success" element={<SocialCallback />} />
             <Route path="/" element={
               <>
                 <SubNavbar />

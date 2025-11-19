@@ -47,17 +47,18 @@ export default function SocialCallback() {
 
   function redirectByRole(u) {
     if (!u) return navigate('/');
-    const roleId = u.roleId;
-    // naive mapping by role name via roles list or fallbacks
-    // for now: if roleId absent -> go to /profile-setup, otherwise dashboard
-    if (!roleId) return navigate('/profile-setup');
-    // default dashboards - you can customize mapping
-    return navigate('/dashboard');
+    // Show success message then redirect to login
+    setTimeout(() => navigate('/login'), 2000);
+    setSuccessMsg('Signup successful! Please login to continue.');
   }
 
   async function submitRole() {
     setError('');
     try {
+      if (!selectedRole) {
+        setError('Please select a role to continue.');
+        return;
+      }
       const base = import.meta.env.VITE_API_URL || '';
       const res = await fetch(`${base}/api/auth/set-role`, {
         method: 'POST',
@@ -66,17 +67,17 @@ export default function SocialCallback() {
         body: JSON.stringify({ roleId: selectedRole })
       });
       if (!res.ok) throw new Error(await res.text());
-      const jr = await res.json();
-      const updated = jr.user || jr.data || jr;
-      // redirect to dashboard
-      return navigate('/dashboard');
+      setSuccessMsg('Role saved! Please login to continue.');
+      setTimeout(() => navigate('/login'), 2000);
     } catch (e) {
       setError(e.message || 'Failed to set role');
     }
   }
 
+  const [successMsg, setSuccessMsg] = useState('');
   if (loading) return <div className="p-8">Finalizing authentication...</div>;
   if (error) return <div className="p-8 text-red-600">{error}</div>;
+  if (successMsg) return <div className="p-8 text-green-600">{successMsg}</div>;
 
   // if roles present, show small modal to pick role
   if (roles && roles.length) {
@@ -90,7 +91,6 @@ export default function SocialCallback() {
           </select>
           {error && <div className="text-red-500 mb-2">{error}</div>}
           <div className="flex gap-2 justify-end">
-            <button className="px-4 py-2 bg-gray-200 rounded" onClick={() => navigate('/')}>Skip</button>
             <button className="px-4 py-2 bg-blue-600 text-white rounded" onClick={submitRole}>Save</button>
           </div>
         </div>
