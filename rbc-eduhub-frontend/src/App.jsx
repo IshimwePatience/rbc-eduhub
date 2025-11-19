@@ -8,8 +8,12 @@ import Contact from './component/landingpages/Contact';
 import Categories from './component/landingpages/Categories';
 import Instructors from './component/landingpages/Instructors';
 import Login from './component/auth/Login';
+import Signup from './component/auth/signup';
+import ForgotPassword from './component/auth/ForgotPassword';
+import VerifyEmail from './component/auth/VerifyEmail';
 import Footer from './component/footer';
 import Certificates from './component/landingpages/certificates';
+import SocialCallback from './component/auth/SocialCallback';
 
 function App() {
   const [isOnline, setIsOnline] = useState(navigator.onLine);
@@ -84,6 +88,10 @@ function App() {
               </>
             } />
             <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/verify-email" element={<VerifyEmail />} />
+            <Route path="/auth/social-callback" element={<SocialCallback />} />
             <Route path="/" element={
               <>
                 <SubNavbar />

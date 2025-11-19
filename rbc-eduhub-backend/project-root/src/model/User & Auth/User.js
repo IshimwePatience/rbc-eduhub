@@ -58,6 +58,10 @@ const User = sequelize.define('User', {
   organization: {
     type: DataTypes.STRING
   },
+  resident: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
   isActive: {
     type: DataTypes.BOOLEAN,
     defaultValue: true,

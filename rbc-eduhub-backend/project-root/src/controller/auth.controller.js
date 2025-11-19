@@ -10,17 +10,82 @@ function ok(res, data, status = 200) {
 // helper to standardize error messages without leaking internals
 function fail(res, error, status = 400) {
   const message = typeof error === 'string' ? error : error?.message || 'Request failed';
-  return res.status(status).json({ success: false, message });
+  return res.status(status).send(message);
 }
+
+const { EmailVerification } = require('../model');
+const { sendMail } = require('../services/mailer.service');
 
 async function signupController(req, res) {
   try {
-    const result = await signUp({ ...req.body });
-    return ok(res, result, 201);
+    const { User } = require('../model');
+    const existingUser = await User.findOne({ where: { email: req.body.email } });
+    if (existingUser) return fail(res, 'Email already in use', 409);
+
+    // Check for existing unused verification
+    const existingVerification = await EmailVerification.findOne({
+      where: {
+        email: req.body.email,
+        type: 'email_verification',
+        used: false
+      }
+    });
+    
+    if (existingVerification) {
+      console.log('DEBUG: Existing unused verification found, resending email');
+      // Just resend the email with existing code
+      await sendMail({
+        to: req.body.email,
+        subject: 'Verify your email',
+        text: `Your verification code is: ${existingVerification.code}`,
+        template: 'verification',
+        templateData: {
+          name: req.body.firstName,
+          code: existingVerification.code,
+          ttlMinutes: 15,
+          year: new Date().getFullYear(),
+          verifyUrl: `${process.env.FRONTEND_ORIGIN}/verify-email?email=${encodeURIComponent(req.body.email)}`
+        }
+      });
+      return ok(res, { message: 'Verification code already sent. Please check your email.' }, 200);
+    }
+
+    // DELETE old records instead of UPDATE
+    await EmailVerification.destroy({
+      where: { email: req.body.email, type: 'email_verification' }
+    });
+
+    // Create new verification
+    const code = Math.floor(100000 + Math.random() * 900000).toString();
+    const expiresAt = new Date(Date.now() + 15 * 60 * 1000);
+    
+    await EmailVerification.create({
+      email: req.body.email,
+      code,
+      type: 'email_verification',
+      expiresAt,
+      used: false,
+      signupData: JSON.stringify(req.body),
+    });
+
+    // Send email
+    await sendMail({
+      to: req.body.email,
+      subject: 'Verify your email',
+      text: `Your verification code is: ${code}. It expires in 15 minutes.`,
+      template: 'verification',
+      templateData: {
+        name: req.body.firstName,
+        code,
+        ttlMinutes: 15,
+        year: new Date().getFullYear(),
+        verifyUrl: `${process.env.FRONTEND_ORIGIN}/verify-email?email=${encodeURIComponent(req.body.email)}`
+      }
+    });
+
+    return ok(res, { message: 'Verification code sent to email. Please verify to complete registration.' }, 201);
   } catch (err) {
-    // conflict on email
-    if (/already in use/i.test(err.message)) return fail(res, err, 409);
-    if (/Role not found/i.test(err.message)) return fail(res, err, 422);
+    console.error('ERROR during signup:', err);
     return fail(res, err, 400);
   }
 }
@@ -43,7 +108,6 @@ async function loginController(req, res) {
         if (!Number.isNaN(maxAge) && maxAge > 0) cookieOpts.maxAge = maxAge;
       }
       res.cookie(refreshTokenCookieName, result.refreshToken, cookieOpts);
-      // don't expose refresh token in response body
       delete result.refreshToken;
       delete result.refreshTokenExpires;
     }
@@ -63,7 +127,6 @@ async function refreshTokenController(req, res) {
     const userAgent = req.get('User-Agent') || '';
     const result = await refreshAuth(oldToken, ip, userAgent);
 
-    // set new refresh token cookie
     if (result.refreshToken) {
       const cookieOpts = {
         httpOnly: true,
@@ -85,7 +148,6 @@ async function logoutController(req, res) {
     const oldToken = req.cookies?.[refreshTokenCookieName] || req.body?.refreshToken;
     const ip = req.ip || req.connection?.remoteAddress || '';
     await logout(oldToken, ip);
-    // clear cookie
     res.clearCookie(refreshTokenCookieName);
     return ok(res, { message: 'Logged out' }, 200);
   } catch (err) {

@@ -56,6 +56,7 @@ const xAPIStatement = require('./Progress Tracking/xAPIStatement');
 
 // Communication
 const EmailNotification = require('./Communication/EmailNotification');
+const EmailVerification = require('./Communication/EmailVerification');
 const SMSNotification = require('./Communication/SMSNotification');
 const Announcement = require('./Communication/Announcement');
 const DiscussionForum = require('./Communication/DiscussionForum');
@@ -318,6 +319,7 @@ module.exports = {
   ContentCompletion,
   xAPIStatement,
   EmailNotification,
+  EmailVerification,
   SMSNotification,
   Announcement,
   DiscussionForum,

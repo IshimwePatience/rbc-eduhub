@@ -1,19 +1,57 @@
+
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import image1 from '../../assets/images/3.jpg';
 import rbcLogo from '../../assets/images/rbclogo.png';
+import { login, getGoogleAuthUrl, getLinkedInAuthUrl } from '../util/api';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Login attempt:', { email, password });
+    setLoading(true);
+    setError('');
+    try {
+      // recaptchaToken can be added if you integrate recaptcha
+      const res = await login(email, password);
+      // API returns { success: true, data: { user, accessToken, ... } }
+      const payload = res?.data || res;
+      const user = payload?.user || null;
+      if (!user) {
+        setError('Login succeeded but no user info returned');
+        return;
+      }
+      // simple role-based redirect: you can customize mappings
+      // fetch role names if needed; for now route to dashboard or admin
+      // Example mapping by roleId is left simple
+      if (user.roleId) {
+        // naive: if roleId present, go to dashboard
+        navigate('/dashboard');
+      } else {
+        navigate('/profile-setup');
+      }
+    } catch (err) {
+      if (err?.message && (/not found|invalid credentials|no user/i.test(err.message))) {
+        setError('No account found with this email or password is incorrect');
+      } else {
+        setError(err?.message || 'Login failed');
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleGoogleLogin = () => {
-    console.log('Google login');
+    window.location.href = getGoogleAuthUrl();
+  };
+
+  const handleLinkedInLogin = () => {
+    window.location.href = getLinkedInAuthUrl();
   };
 
   return (
@@ -30,12 +68,14 @@ function Login() {
 
           {/* Login Form */}
           <div className="rounded-2xl border border-gray-500 p-8">
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-2">
+
               {/* Google Login Button */}
               <button
                 type="button"
                 onClick={handleGoogleLogin}
                 className="w-full bg-[#004370] hover:bg-gray-600 text-white py-3 rounded-lg flex items-center justify-center gap-3 transition-colors"
+                disabled={loading}
               >
                 <svg className="w-5 h-5" viewBox="0 0 24 24">
                   <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -44,6 +84,17 @@ function Login() {
                   <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
                 </svg>
                 Continue with Google
+              </button>
+              <button
+                type="button"
+                onClick={handleLinkedInLogin}
+                className="w-full bg-[#0077B5] hover:bg-gray-600 text-white py-3 rounded-lg flex items-center justify-center gap-3 transition-colors mt-2"
+                disabled={loading}
+              >
+                <svg className="w-5 h-5" viewBox="0 0 24 24">
+                  <path fill="#ffffff" d="M19 0h-14c-2.76 0-5 2.24-5 5v14c0 2.76 2.24 5 5 5h14c2.76 0 5-2.24 5-5v-14c0-2.76-2.24-5-5-5zm-11 19h-3v-10h3v10zm-1.5-11.25c-.97 0-1.75-.78-1.75-1.75s.78-1.75 1.75-1.75 1.75.78 1.75 1.75-.78 1.75-1.75 1.75zm13.5 11.25h-3v-5.5c0-1.32-.03-3-1.83-3-1.83 0-2.11 1.43-2.11 2.9v5.6h-3v-10h2.88v1.36h.04c.4-.75 1.38-1.54 2.84-1.54 3.04 0 3.6 2 3.6 4.59v5.59z"/>
+                </svg>
+                Continue with LinkedIn
               </button>
 
               <div className="flex items-center gap-4">
@@ -61,6 +112,7 @@ function Login() {
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full bg-black/10 text-gray-700 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
                   required
+                  disabled={loading}
                 />
               </div>
 
@@ -73,24 +125,32 @@ function Login() {
                   onChange={(e) => setPassword(e.target.value)}
                   className="w-full bg-black/10 text-gray-700 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
                   required
+                  disabled={loading}
                 />
               </div>
+
+              {/* Error Message */}
+              {error && (
+                <div className="text-red-500 text-sm text-center">{error}</div>
+              )}
 
               {/* Submit Button */}
               <button
                 type="submit"
                 className="w-full bg-white text-gray-900 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
+                disabled={loading}
               >
-                Continue with email
+                {loading ? 'Logging in...' : 'Continue with email'}
               </button>
 
-              {/* Privacy Policy */}
-              <p className="text-gray-400 text-sm text-center">
-                By continuing, you acknowledge RBC's{' '}
-                <Link to="/privacy" className="text-blue-400 hover:underline">
-                  Privacy Policy
+              {/* Forgot Password Link */}
+              <div className="text-center mt-2">
+                <Link to="/forgot-password" className="text-blue-400 hover:underline font-semibold">
+                  Forgot password?
                 </Link>
-              </p>
+              </div>
+
+             
             </form>
 
             {/* Sign Up Link */}
@@ -103,13 +163,20 @@ function Login() {
               </p>
             </div>
           </div>
+           {/* Privacy Policy */}
+              <p className="text-gray-400 text-sm text-center">
+                By continuing, you acknowledge RBC's{' '}
+                <Link to="/privacy" className="text-blue-400 hover:underline">
+                  Privacy Policy
+                </Link>
+              </p>
         </div>
       </div>
+
 
       {/* Right Side - Image with Grid Overlay */}
       <div className="hidden lg:block lg:w-1/2 bg-gray-800 relative">
         <img src={image1} alt="Healthcare professionals" className="w-full h-full object-cover" />
-        
         {/* Grid Overlay Lines */}
         <div className="absolute inset-0 pointer-events-none">
           {/* Vertical line */}

@@ -6,7 +6,7 @@
 
 const API_BASE = import.meta.env.VITE_API_URL || '';
 
-async function postJSON(path, body, opts = {}) {
+export async function postJSON(path, body, opts = {}) {
 	const fetchOpts = {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },

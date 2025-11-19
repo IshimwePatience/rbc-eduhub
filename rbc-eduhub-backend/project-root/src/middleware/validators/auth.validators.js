@@ -5,6 +5,12 @@ const signupValidation = [
   body('lastName').trim().notEmpty().withMessage('lastName is required'),
   body('email').isEmail().withMessage('Valid email is required'),
   body('password').isLength({ min: 6 }).withMessage('password min length 6'),
+  body('confirmPassword').custom((value, { req }) => {
+    if (req.body.password && value !== req.body.password) {
+      throw new Error('Passwords do not match');
+    }
+    return true;
+  }).withMessage('confirmPassword must match password'),
   body('phone').optional().isString(),
   body('nationalId').optional().isString(),
   body('jobTitle').optional().isString(),

@@ -1,6 +1,10 @@
 const https = require('https');
 
 function verifyRecaptcha(req, res, next) {
+  // Allow a dev bypass via env var to make local testing easier.
+  // Set RECAPTCHA_BYPASS=true in .env to skip verification (only use in development).
+  if (process.env.RECAPTCHA_BYPASS === 'true') return next();
+
   const token = req.body?.recaptchaToken;
   if (!process.env.RECAPTCHA_SECRET_KEY) {
     return res.status(500).json({ success: false, message: 'reCAPTCHA not configured' });

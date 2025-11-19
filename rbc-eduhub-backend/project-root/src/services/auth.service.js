@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs');
 const speakeasy = require('speakeasy');
 const qrcode = require('qrcode');
 const { sequelize } = require('../config/database');
+const { Op } = require('sequelize');
 const { v4: uuidv4 } = require('uuid');
 
 // Models
@@ -27,6 +28,7 @@ function toPublicUser(u) {
     fullName: `${u.firstName} ${u.lastName}`,
     email: u.email,
     phone: u.phone || null,
+    roleId: u.roleId || null,
     isActive: u.isActive,
     isVerified: u.isVerified,
     createdAt: u.createdAt,
@@ -64,14 +66,24 @@ async function signUp({
     const existing = await User.findOne({ where: { email: normEmail }, transaction: t });
     if (existing) throw new Error('Email already in use');
 
+    console.log('DEBUG: Checking role for user signup');
     let role;
     if (roleId) {
       role = await Role.findByPk(roleId, { transaction: t });
     } else {
-      role = await Role.findOne({ where: { name: roleName }, transaction: t });
+      role = await Role.findOne({
+        where: {
+          [Op.or]: [
+            { name: roleName },
+            { slug: roleName }
+          ]
+        },
+        transaction: t
+      });
     }
     if (!role) throw new Error('Role not found; seed roles first or provide a valid role');
 
+    console.log('DEBUG: Creating user with normalized email:', normEmail);
     const user = await User.create({
       firstName,
       lastName,
@@ -89,6 +101,8 @@ async function signUp({
       isActive,
       isVerified,
     }, { transaction: t });
+
+    console.log('DEBUG: User created successfully:', user);
 
     const token = jwt.sign({ sub: user.id, roleId: role.id }, process.env.JWT_SECRET, { expiresIn: '7d' });
     return { user: toPublicUser(user), token };
@@ -199,9 +213,8 @@ async function socialSignIn(provider, profile, tokens = {}) {
   if (email) {
     const existingUser = await UserModel.findOne({ where: { email } });
     if (existingUser) {
-      // create social record linked to existing user
-      social = await SocialAuth.create({ userId: existingUser.id, provider, providerId, email, displayName, profilePhoto: photo, accessToken: tokens.accessToken, refreshToken: tokens.refreshToken, tokenExpiresAt: tokens.expiresAt });
-      return existingUser;
+      // If this is a new social signup attempt, throw error for duplicate email
+      throw new Error('User already exists with this email');
     }
   }
 
@@ -212,6 +225,8 @@ async function socialSignIn(provider, profile, tokens = {}) {
   const firstName = nameParts.shift() || 'Social';
   const lastName = nameParts.join(' ') || 'User';
   const newUser = await UserModel.create({ firstName, lastName, email: email || `${provider}_${providerId}@example.local`, password: Math.random().toString(36).slice(2), roleId: role ? role.id : null, isVerified: !!email, isActive: true });
+  // mark as newly created so caller (passport) can detect and prompt for role selection
+  try { newUser.__isNew = true; } catch (e) { /* ignore */ }
   // create social record
   await SocialAuth.create({ userId: newUser.id, provider, providerId, email: email || null, displayName, profilePhoto: photo, accessToken: tokens.accessToken, refreshToken: tokens.refreshToken, tokenExpiresAt: tokens.expiresAt });
   return newUser;

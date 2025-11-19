@@ -22,10 +22,10 @@ const xAPIStatement = sequelize.define('xAPIStatement', {
   tableName: 'xapi_statements',
   underscored: true,
   indexes: [
-    { fields: [sequelize.literal("((actor->>'userId')::uuid)")] },
-    { fields: [sequelize.literal("((object->>'objectId')::uuid)")] },
-    { fields: [sequelize.literal("(verb->>'id')")] },
-    { fields: ['timestamp'] }
+    { fields: [sequelize.literal("((actor->>'userId')::uuid)")], unique: false },
+    { fields: [sequelize.literal("((object->>'objectId')::uuid)")], unique: false },
+    { fields: [sequelize.literal("(verb->>'id')")], unique: false },
+    { fields: ['timestamp'], unique: false }
   ]
 });
 
