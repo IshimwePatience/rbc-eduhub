@@ -73,7 +73,7 @@ const Navbar = () => {
                 to="/signup"
                 className="text-white bg-transparent hover:text-yellow-300 font-medium px-3 py-1 rounded text-sm"
               >
-                Create account for your institution
+                Manage your institution
               </Link>
             </div>
           </div>
