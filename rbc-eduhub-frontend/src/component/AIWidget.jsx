@@ -115,12 +115,12 @@ export default function AIWidget() {
       {/* Floating Action Button */}
       <div className="fixed right-4 md:right-8 bottom-4 md:bottom-8 z-50">
         <div className="relative">
-          <div className="absolute inset-0 rounded-full bg-[#004370] pulse-ring"></div>
-          <div className="absolute inset-0 rounded-full bg-[#004370] pulse-ring" style={{ animationDelay: '0.5s' }}></div>
-          <div className="absolute inset-0 rounded-full bg-[#004370] pulse-ring" style={{ animationDelay: '1s' }}></div>
+          <div className="absolute inset-0 rounded-full bg-[#0071bc] pulse-ring"></div>
+          <div className="absolute inset-0 rounded-full bg-[#0071bc] pulse-ring" style={{ animationDelay: '0.5s' }}></div>
+          <div className="absolute inset-0 rounded-full bg-[#0071bc] pulse-ring" style={{ animationDelay: '1s' }}></div>
           
           <button
-            className="floating-btn relative w-16 h-16 md:w-20 md:h-20 rounded-full bg-[#004370] text-white flex items-center justify-center shadow-2xl hover:shadow-[#004370]/50 transition-shadow duration-300 border-4 border-white/30"
+            className="floating-btn relative w-16 h-16 md:w-20 md:h-20 rounded-full bg-[#0071bc] text-white flex items-center justify-center shadow-2xl hover:shadow-[#004370]/50 transition-shadow duration-300 border-4 border-white/30"
             onClick={() => setOpen((s) => !s)}
             aria-label="AI Assistant"
           >

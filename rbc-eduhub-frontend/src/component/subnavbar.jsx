@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Search, X } from 'lucide-react';
-import rbcLogo from '../assets/images/rbclogo.png';
+import rbcLogo from '../assets/images/rbc12.png';
 
 const SubNavbar = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -59,16 +59,16 @@ const SubNavbar = () => {
     <>
       <div className="bg-[#FCFCFD] shadow-sm relative z-10 pt-8">
         {/* Top Utility Bar */}
-        <div className="bg-[#FCFCFD]">
+        <div className="bg-[#0071bc]">
           <div className="max-w-7xl mx-auto px-6">
             <div className="flex items-center justify-end space-x-6 h-10">
-              <Link to="/partners" className="text-sm text-gray-700 hover:text-gray-900">
+              <Link to="/partners" className="text-sm text-white hover:text-gray-900">
                 Partners
               </Link>
-              <Link to="/resources" className="text-sm text-gray-700 hover:text-gray-900">
+              <Link to="/resources" className="text-sm text-white hover:text-gray-900">
                 Resources
               </Link>
-              <Link to="/about" className="text-sm text-gray-700 hover:text-gray-900">
+              <Link to="/about" className="text-sm text-white hover:text-gray-900">
                 About
               </Link>
             </div>
@@ -76,7 +76,7 @@ const SubNavbar = () => {
         </div>
 
         {/* Main Navigation Bar */}
-        <div className="bg-[#FCFCFD]">
+        <div className="bg-[#0071bc]">
           <div className="max-w-7xl mx-auto px-6">
             <div className="flex items-center justify-between h-20">
                {/* Logo */}
@@ -92,25 +92,25 @@ const SubNavbar = () => {
 
               {/* Center Navigation Links */}
               <nav className="hidden lg:flex items-center space-x-8 flex-1 justify-center">
-                <Link to="/getstarted" className="text-base font-bold text-gray-800 hover:text-gray-900">
+                <Link to="/getstarted" className="text-base font-bold text-white hover:text-gray-900">
                   Get Started
                 </Link>
-                <Link to="/courses" className="text-base font-bold text-gray-800 hover:text-gray-900">
+                <Link to="/courses" className="text-base font-bold text-white hover:text-gray-900">
                   All Courses
                 </Link>
-                <Link to="/categories" className="text-base font-bold text-gray-800 hover:text-gray-900">
+                <Link to="/categories" className="text-base font-bold text-white hover:text-gray-900">
                   Categories
                 </Link>
-                <Link to="/my-learning" className="text-base font-bold text-gray-800 hover:text-gray-900">
+                <Link to="/my-learning" className="text-base font-bold text-white hover:text-gray-900">
                   My Learning
                 </Link>
-                <Link to="/instructors" className="text-base font-bold text-gray-800 hover:text-gray-900">
+                <Link to="/instructors" className="text-base font-bold text-white hover:text-gray-900">
                   Instructors
                 </Link>
-                <Link to="/certificates" className="text-base font-bold text-gray-800 hover:text-gray-900">
+                <Link to="/certificates" className="text-base font-bold text-white hover:text-gray-900">
                   Certificates
                 </Link>
-                <Link to="/live-sessions" className="text-base font-bold text-gray-800 hover:text-gray-900">
+                <Link to="/live-sessions" className="text-base font-bold text-white hover:text-gray-900">
                   Live Sessions
                 </Link>
               </nav>
@@ -120,7 +120,7 @@ const SubNavbar = () => {
                 {/* Search Icon */}
                 <button 
                   onClick={() => setShowSearch(true)}
-                  className="p-2 text-gray-600 hover:text-gray-900 transition-colors"
+                  className="p-2 text-white hover:text-gray-900 transition-colors"
                   aria-label="Search"
                 >
                   <Search size={22} />
@@ -129,7 +129,7 @@ const SubNavbar = () => {
                 {/* Let's Connect Button */}
                 <Link 
                   to="/contact"
-                  className="px-6 py-2.5 border-2 border-gray-900 text-gray-900 rounded-full hover:bg-gray-900 hover:text-white transition-all duration-200 text-sm font-medium whitespace-nowrap"
+                  className="px-6 py-2.5 border-2 border-white text-white rounded-full hover:bg-gray-900 hover:text-white transition-all duration-200 text-sm font-medium whitespace-nowrap"
                 >
                   Let's Connect
                 </Link>
@@ -139,15 +139,15 @@ const SubNavbar = () => {
             {/* Mobile Navigation */}
             <div className="lg:hidden pb-4 space-y-2">
               <div className="flex flex-wrap gap-2">
-                <Link to="/getstarted" className="text-sm text-gray-700 hover:text-gray-900">Get Started</Link>
-                <Link to="/courses" className="text-sm text-gray-700 hover:text-gray-900">All Courses</Link>
-                <Link to="/categories" className="text-sm text-gray-700 hover:text-gray-900">Categories</Link>
-                <Link to="/my-learning" className="text-sm text-gray-700 hover:text-gray-900">My Learning</Link>
-                <Link to="/instructors" className="text-sm text-gray-700 hover:text-gray-900">Instructors</Link>
-                <Link to="/certificates" className="text-sm text-gray-700 hover:text-gray-900">Certificates</Link>
-                <Link to="/live-sessions" className="text-sm text-gray-700 hover:text-gray-900">Live Sessions</Link>
-                <Link to="/resources" className="text-sm text-gray-700 hover:text-gray-900">Resources</Link>
-                <Link to="/about" className="text-sm text-gray-700 hover:text-gray-900">About</Link>
+                <Link to="/getstarted" className="text-sm text-white hover:text-gray-900">Get Started</Link>
+                <Link to="/courses" className="text-sm text-white hover:text-gray-900">All Courses</Link>
+                <Link to="/categories" className="text-sm text-white hover:text-gray-900">Categories</Link>
+                <Link to="/my-learning" className="text-sm text-white hover:text-gray-900">My Learning</Link>
+                <Link to="/instructors" className="text-sm text-white hover:text-gray-900">Instructors</Link>
+                <Link to="/certificates" className="text-sm text-white hover:text-gray-900">Certificates</Link>
+                <Link to="/live-sessions" className="text-sm text-white hover:text-gray-900">Live Sessions</Link>
+                <Link to="/resources" className="text-sm text-white hover:text-gray-900">Resources</Link>
+                <Link to="/about" className="text-sm text-white hover:text-gray-900">About</Link>
               </div>
             </div>
           </div>

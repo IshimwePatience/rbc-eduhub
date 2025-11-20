@@ -61,19 +61,28 @@ const Navbar = () => {
 
             {/* Mobile Menu Button */}
             <button 
-              className="md:hidden text-gray-700 hover:text-blue-600 relative z-[101]"
+              className="md:hidden text-white hover:text-blue-600 relative z-[101]"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label="Toggle menu"
             >
               {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
+            {/* Desktop-only institution CTA in right corner */}
+            <div className="hidden md:flex items-center absolute right-4 top-1">
+              <Link
+                to="/signup"
+                className="text-white bg-transparent hover:text-yellow-300 font-medium px-3 py-1 rounded text-sm"
+              >
+                Create account for your institution
+              </Link>
+            </div>
           </div>
         </div>
       </nav>
 
       {/* Mobile Menu - Fullscreen Overlay */}
       {isMobileMenuOpen && (
-        <div className="md:hidden fixed inset-0 bg-gradient-to-br from-gray-50 to-gray-100 z-[99]">
+        <div className="md:hidden fixed inset-0 bg-white z-[99]">
           <div className="flex flex-col items-start justify-start h-full space-y-6 px-8 pt-24">
             <Link 
               to="/login" 
@@ -89,6 +98,13 @@ const Navbar = () => {
             >
               Sign Up
             </Link>
+              <Link
+                to="/signup"
+                className="mt-2 w-full text-3xl text-gray-800 hover:text-yellow-500 font-semibold transition-all duration-300 text-left py-3"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Create account for your institution
+              </Link>
             <button 
               className="flex items-center space-x-4 text-gray-600 hover:text-blue-600 font-semibold text-3xl transition-all duration-300 hover:translate-x-2 w-full py-3 border-b border-gray-200"
               onClick={() => setIsMobileMenuOpen(false)}
