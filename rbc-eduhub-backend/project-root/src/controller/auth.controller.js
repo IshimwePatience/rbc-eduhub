@@ -22,6 +22,24 @@ async function signupController(req, res) {
     const existingUser = await User.findOne({ where: { email: req.body.email } });
     if (existingUser) return fail(res, 'Email already in use', 409);
 
+    // Enforce allowed roles for public signup
+    const allowedRoles = ['Learner', 'Instructor'];
+    const payloadRoleName = req.body.roleName;
+    const payloadRoleId = req.body.roleId;
+    if (payloadRoleId) {
+      // verify roleId corresponds to allowed role
+      const Role = require('../model/User & Auth/Role');
+      const role = await Role.findByPk(payloadRoleId);
+      if (!role || !allowedRoles.includes(role.name)) {
+        return fail(res, 'Invalid role for public signup', 400);
+      }
+    } else if (payloadRoleName) {
+      if (!allowedRoles.includes(payloadRoleName)) return fail(res, 'Invalid role for public signup', 400);
+    } else {
+      // default to Learner if none provided
+      req.body.roleName = 'Learner';
+    }
+
     // Check for existing unused verification
     const existingVerification = await EmailVerification.findOne({
       where: {

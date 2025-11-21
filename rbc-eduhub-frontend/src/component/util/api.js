@@ -64,4 +64,12 @@ export function getLinkedInAuthUrl() {
 	return `${API_BASE}/api/auth/linkedin`;
 }
 
+export async function registerInstitution(payload) {
+	return await postJSON('/api/auth/register-institution', payload);
+}
+
+export async function registerSuperAdmin(payload) {
+	return await postJSON('/api/auth/register-superadmin', payload);
+}
+
 export default { callAI, login, signup, refreshAuth, logout, getGoogleAuthUrl, getLinkedInAuthUrl };

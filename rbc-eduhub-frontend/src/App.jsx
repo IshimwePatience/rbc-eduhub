@@ -11,6 +11,8 @@ import Login from './component/auth/Login';
 import Signup from './component/auth/signup';
 import ForgotPassword from './component/auth/ForgotPassword';
 import VerifyEmail from './component/auth/VerifyEmail';
+import InstitutionRegister from './component/auth/InstitutionRegister';
+import SuperAdminRegister from './component/auth/SuperAdminRegister';
 import Footer from './component/footer';
 import Certificates from './component/landingpages/certificates';
 import SocialCallback from './component/auth/SocialCallback';
@@ -91,6 +93,11 @@ function App() {
             <Route path="/signup" element={<Signup />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/verify-email" element={<VerifyEmail />} />
+            <Route path="/register-institution" element={<InstitutionRegister />} />
+            <Route path="/superadminregistration" element={<SuperAdminRegister />} />
+            <Route path="/superadminregistration/login" element={<Login />} />
+            <Route path="/superadminregistration/verify-email" element={<VerifyEmail />} />
+            <Route path="/superadminregistration/forgot-password" element={<ForgotPassword />} />
             <Route path="/auth/social-callback" element={<SocialCallback />} />
             <Route path="/auth/success" element={<SocialCallback />} />
             <Route path="/" element={

@@ -136,6 +136,29 @@ async function verifyCode({ email, code, type = 'email_verification' }) {
     }
   }
 
+  // If this verification record references an existing user (userId), mark them verified
+  if (type === 'email_verification' && rec.userId) {
+    try {
+      const existingUser = await User.findByPk(rec.userId);
+      if (existingUser && !existingUser.isVerified) {
+        existingUser.isVerified = true;
+        await existingUser.save();
+        // send welcome email for existing user
+        const { sendMail } = require('./mailer.service');
+        const Role = require('../model/User & Auth/Role');
+        const role = existingUser.roleId ? await Role.findByPk(existingUser.roleId) : null;
+        await sendMail({
+          to: existingUser.email,
+          subject: 'Welcome to RBC EduHub!',
+          template: 'welcome-success',
+          templateData: { name: existingUser.firstName, roleName: role ? role.name : 'User', year: new Date().getFullYear() }
+        });
+      }
+    } catch (e) {
+      console.error('Failed to mark existing user verified after code verify', e && e.message);
+    }
+  }
+
   rec.used = true;
   await rec.save();
   return rec;

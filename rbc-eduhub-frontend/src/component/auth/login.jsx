@@ -2,8 +2,10 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import image1 from '../../assets/images/3.jpg';
+import Joji from '../../assets/images/joji.png';
 import rbcLogo from '../../assets/images/rbclogo.png';
 import { login, getGoogleAuthUrl, getLinkedInAuthUrl } from '../util/api';
+import Gov from '../../assets/images/gov.png';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -54,17 +56,27 @@ function Login() {
     window.location.href = getLinkedInAuthUrl();
   };
 
+  // Detect if we're on the Super Admin login page
+  const isSuperAdmin = window.location.pathname.startsWith('/superadminregistration/login');
+
   return (
     <div className="min-h-screen flex">
       {/* Left Side - Login Form */}
       <div className="w-full lg:w-1/2 flex items-center justify-center bg-white px-8 py-12">
         <div className="max-w-md w-full">
-          {/* Get Started Link */}
-          <div className="mb-6">
-            <Link to="/getstarted" className="text-base font-medium text-gray-800 hover:text-gray-900 hover:underline">
-              Get Started &rarr;
-            </Link>
+          {/* Logo */}
+          <div className="fixed top-8 left-2 pt-6 pl-6 z-50 flex item-center gap-4">
+            <img src={Gov} alt="RBC Logo" className="h-16" />
+            <img src={rbcLogo} alt="RBC Logo" className="h-16" />
           </div>
+          {/* Get Started Link (hide for Super Admin) */}
+          {!isSuperAdmin && (
+            <div className="mb-6">
+              <Link to="/getstarted" className="text-base font-medium text-gray-800 hover:text-gray-900 hover:underline">
+                Get Started &rarr;
+              </Link>
+            </div>
+          )}
 
           {/* Login Form */}
           <div className="rounded-2xl border border-gray-500 p-8">
@@ -110,7 +122,7 @@ function Login() {
                   placeholder="Enter your email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full bg-black/10 text-gray-700 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
+                  className="w-full border border-gray-200 text-gray-700 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
                   required
                   disabled={loading}
                 />
@@ -123,7 +135,7 @@ function Login() {
                   placeholder="Enter your password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full bg-black/10 text-gray-700 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
+                  className="w-full border border-gray-200 text-gray-700 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
                   required
                   disabled={loading}
                 />
@@ -145,7 +157,10 @@ function Login() {
 
               {/* Forgot Password Link */}
               <div className="text-center mt-2">
-                <Link to="/forgot-password" className="text-blue-400 hover:underline font-semibold">
+                <Link
+                  to={isSuperAdmin ? "/superadminregistration/forgot-password" : "/forgot-password"}
+                  className="text-blue-400 hover:underline font-semibold"
+                >
                   Forgot password?
                 </Link>
               </div>
@@ -157,7 +172,10 @@ function Login() {
             <div className="mt-2 text-center">
               <p className="text-gray-400">
                 Don't have an account?{' '}
-                <Link to="/signup" className="text-blue-400 hover:underline font-semibold">
+                <Link
+                  to={isSuperAdmin ? "/superadminregistration" : "/signup"}
+                  className="text-blue-400 hover:underline font-semibold"
+                >
                   Sign up
                 </Link>
               </p>
@@ -175,8 +193,15 @@ function Login() {
 
 
       {/* Right Side - Image with Grid Overlay */}
-      <div className="hidden lg:block lg:w-1/2 bg-gray-800 relative">
-        <img src={image1} alt="Healthcare professionals" className="w-full h-full object-cover" />
+      <div className="hidden lg:block lg:w-1/2 bg-gray-800 relative overflow-hidden">
+        {/* Right-side image, always fills container, no scroll */}
+        <div className="absolute inset-0">
+          {isSuperAdmin ? (
+            <img src={Joji} alt="Joji" className="w-full h-full object-cover" />
+          ) : (
+            <img src={image1} alt="Healthcare professionals" className="w-full h-full object-cover" />
+          )}
+        </div>
         {/* Grid Overlay Lines */}
         <div className="absolute inset-0 pointer-events-none">
           {/* Vertical line */}

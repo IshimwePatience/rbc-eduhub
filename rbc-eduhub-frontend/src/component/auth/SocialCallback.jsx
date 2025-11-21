@@ -30,8 +30,11 @@ export default function SocialCallback() {
           const r = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/auth/roles`);
           if (!r.ok) throw new Error('Failed to load roles');
           const jr = await r.json();
-          setRoles(jr.roles || []);
-          if (jr.roles && jr.roles.length) setSelectedRole(jr.roles[0].id);
+          // Only allow public-facing roles for social signup: Learner and Instructor
+          const allowed = ['Learner', 'Instructor'];
+          const filtered = (jr.roles || []).filter(role => allowed.includes(role.name));
+          setRoles(filtered);
+          if (filtered && filtered.length) setSelectedRole(filtered[0].id);
         } else {
           // not a new user - redirect based on role
           redirectByRole(u);

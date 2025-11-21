@@ -109,8 +109,10 @@ function Signup() {
         if (!res.ok) return;
         const jr = await res.json();
         const r = jr.roles || [];
-        setRoles(r);
-        if (r.length) setSelectedRole(r[0].id);
+        // Only expose Learner and Instructor to public signup
+        const allowed = r.filter(role => ['Learner', 'Instructor'].includes(role.name));
+        setRoles(allowed);
+        if (allowed.length) setSelectedRole(allowed[0].id);
       } catch (e) {
         // ignore silently — roles are optional
       }
@@ -184,7 +186,7 @@ function Signup() {
                 placeholder="First Name"
                 value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
-                className="w-full bg-black/10 text-gray-700 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
+                className="w-full border border-gray-200 text-gray-700 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
                 required
                 disabled={loading}
               />
@@ -195,7 +197,7 @@ function Signup() {
                 placeholder="Last Name"
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
-                className="w-full bg-black/10 text-gray-700 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
+                className="w-full border border-gray-200 text-gray-700 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
                 required
                 disabled={loading}
               />
@@ -206,7 +208,7 @@ function Signup() {
                 placeholder="Email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full bg-black/10 text-gray-700 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
+                className="w-full border border-gray-200 text-gray-700 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
                 required
                 disabled={loading}
               />
@@ -217,7 +219,7 @@ function Signup() {
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full bg-black/10 text-gray-700 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
+                className="w-full border border-gray-200 text-gray-700 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
                 required
                 disabled={loading}
               />
@@ -228,7 +230,7 @@ function Signup() {
                 placeholder="Confirm password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                className="w-full bg-black/10 text-gray-700 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
+                className="w-full border border-gray-200 text-gray-700 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
                 required
                 disabled={loading}
               />
@@ -239,7 +241,7 @@ function Signup() {
                 placeholder="Phone (optional)"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
-                className="w-full bg-black/10 text-gray-700 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
+                className="w-full border border-gray-200 text-gray-700 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
                 disabled={loading}
               />
             </div>
@@ -249,7 +251,7 @@ function Signup() {
                 placeholder="National ID (optional)"
                 value={nationalId}
                 onChange={(e) => setNationalId(e.target.value)}
-                className="w-full bg-black/10 text-gray-700 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
+                className="w-full border border-gray-200 text-gray-700 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
                 disabled={loading}
               />
             </div>
@@ -259,7 +261,7 @@ function Signup() {
                 placeholder="Job Title (optional)"
                 value={jobTitle}
                 onChange={(e) => setJobTitle(e.target.value)}
-                className="w-full bg-black/10 text-gray-700 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
+                className="w-full border border-gray-200 text-gray-700 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
                 disabled={loading}
               />
             </div>
@@ -269,7 +271,7 @@ function Signup() {
                 placeholder="Organization (optional)"
                 value={organization}
                 onChange={(e) => setOrganization(e.target.value)}
-                className="w-full bg-black/10 text-gray-700 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
+                className="w-full border border-gray-200 text-gray-700 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
                 disabled={loading}
               />
             </div>
@@ -279,7 +281,7 @@ function Signup() {
                 placeholder="Resident (required)"
                 value={resident}
                 onChange={(e) => setResident(e.target.value)}
-                className="w-full bg-black/10 text-gray-700 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
+                className="w-full border border-gray-200 text-gray-700 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
                 required
                 disabled={loading}
               />

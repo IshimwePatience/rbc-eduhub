@@ -132,4 +132,85 @@ router.get('/roles', async (req, res) => {
 	}
 });
 
+// Institutional registration - creates an Organization Admin account
+router.post('/register-institution', async (req, res) => {
+	try {
+		const { firstName, lastName, email, password, organization, country } = req.body;
+		if (!email || !firstName || !lastName || !organization || !password) return res.status(400).json({ success: false, message: 'firstName, lastName, email, organization and password are required' });
+		const { EmailVerification, User } = require('../model');
+		const exists = await User.findOne({ where: { email } });
+		if (exists) return res.status(409).json({ success: false, message: 'Email already in use' });
+		const Role = require('../model/User & Auth/Role');
+		const role = await Role.findOne({ where: { name: 'Admin' } });
+		if (!role) return res.status(500).json({ success: false, message: 'Admin role not configured' });
+		// Remove any previous unused verifications
+		await EmailVerification.destroy({ where: { email, type: 'email_verification' } });
+		// Create verification record with signupData
+		const code = Math.floor(100000 + Math.random() * 900000).toString();
+		const expiresAt = new Date(Date.now() + 15 * 60 * 1000);
+		const signupData = JSON.stringify({ firstName, lastName, email, password, organization, country, roleId: role.id, roleName: role.name });
+		await EmailVerification.create({ email, code, type: 'email_verification', expiresAt, used: false, signupData });
+		// Send verification email
+		const { sendMail } = require('../services/mailer.service');
+		await sendMail({
+			to: email,
+			subject: 'Verify your email',
+			text: `Your verification code is: ${code}. It expires in 15 minutes.`,
+			template: 'verification',
+			templateData: {
+				name: firstName,
+				code,
+				ttlMinutes: 15,
+				year: new Date().getFullYear(),
+				verifyUrl: `${process.env.FRONTEND_ORIGIN}/verify-email?email=${encodeURIComponent(email)}`
+			}
+		});
+		return res.json({ success: true, message: 'Verification code sent to email. Please verify to complete registration.' });
+	} catch (e) {
+		return res.status(500).json({ success: false, message: e.message || 'Failed to register institution' });
+	}
+});
+
+// Super Admin registration (private) - requires platform secret
+router.post('/register-superadmin', async (req, res) => {
+	try {
+		const { firstName, lastName, email, password, secret } = req.body;
+		const platformSecret = process.env.SUPERADMIN_SECRET;
+		if (!platformSecret) return res.status(500).json({ success: false, message: 'Super admin secret not configured' });
+		if (!secret || secret !== platformSecret) return res.status(401).json({ success: false, message: 'Invalid platform secret' });
+		if (!email || !firstName || !lastName || !password) return res.status(400).json({ success: false, message: 'firstName, lastName, email and password are required' });
+		const { EmailVerification, User } = require('../model');
+		const exists = await User.findOne({ where: { email } });
+		if (exists) return res.status(409).json({ success: false, message: 'Email already in use' });
+		const Role = require('../model/User & Auth/Role');
+		const role = await Role.findOne({ where: { name: 'Super Admin' } });
+		if (!role) return res.status(500).json({ success: false, message: 'Super Admin role not configured' });
+		// Remove any previous unused verifications
+		await EmailVerification.destroy({ where: { email, type: 'email_verification' } });
+		// Create verification record with signupData
+		const code = Math.floor(100000 + Math.random() * 900000).toString();
+		const expiresAt = new Date(Date.now() + 15 * 60 * 1000);
+		const signupData = JSON.stringify({ firstName, lastName, email, password, roleId: role.id, roleName: role.name });
+		await EmailVerification.create({ email, code, type: 'email_verification', expiresAt, used: false, signupData });
+		// Send verification email
+		const { sendMail } = require('../services/mailer.service');
+		await sendMail({
+			to: email,
+			subject: 'Verify your email',
+			text: `Your verification code is: ${code}. It expires in 15 minutes.`,
+			template: 'verification',
+			templateData: {
+				name: firstName,
+				code,
+				ttlMinutes: 15,
+				year: new Date().getFullYear(),
+				verifyUrl: `${process.env.FRONTEND_ORIGIN}/verify-email?email=${encodeURIComponent(email)}`
+			}
+		});
+		return res.json({ success: true, message: 'Verification code sent to email. Please verify to complete registration.' });
+	} catch (e) {
+		return res.status(500).json({ success: false, message: e.message || 'Failed to register super admin' });
+	}
+});
+
 module.exports = router;

@@ -1,6 +1,8 @@
 
 import React, { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import rbcLogo from '../../assets/images/rbclogo.png';
+import Gov from '../../assets/images/gov.png';
+import { useLocation, useNavigate, Link } from 'react-router-dom';
 import { postJSON } from '../util/api';
 
 export default function VerifyEmail() {
@@ -8,6 +10,8 @@ export default function VerifyEmail() {
   const navigate = useNavigate();
   const params = new URLSearchParams(location.search);
   const email = params.get('email') || '';
+  // Detect if this is a superadmin verification page
+  const isSuperAdmin = location.pathname.startsWith('/superadminregistration');
   const [code, setCode] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
@@ -34,7 +38,13 @@ export default function VerifyEmail() {
     try {
   await postJSON('/api/auth/verify-email', { email, code });
       setSuccess(true);
-      setTimeout(() => navigate('/login'), 2000);
+      setTimeout(() => {
+        if (isSuperAdmin) {
+          navigate('/superadminregistration/login');
+        } else {
+          navigate('/login');
+        }
+      }, 2000);
     } catch (err) {
       setError(err.message || 'Verification failed');
     }
@@ -43,6 +53,11 @@ export default function VerifyEmail() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-white px-8 py-12">
+      {/* Logo */}
+      <div className="fixed top-8 left-2 pt-6 pl-6 z-50 flex item-center gap-4">
+        <img src={Gov} alt="RBC Logo" className="h-16" />
+        <img src={rbcLogo} alt="RBC Logo" className="h-16" />
+      </div>
       <div className="max-w-md w-full">
         <div className="rounded-2xl border border-gray-500 p-8">
           <h2 className="text-2xl font-bold mb-6 text-center">Verify Your Email</h2>
@@ -53,7 +68,7 @@ export default function VerifyEmail() {
             </div>
             <div>
               <label className="block text-sm text-gray-600 mb-1">Verification Code</label>
-              <input type="text" value={code} onChange={e => setCode(e.target.value)} required className="w-full bg-black/10 text-gray-700 px-4 py-3 rounded-lg" />
+              <input type="text"  placeholder="Enter code from email" value={code} onChange={e => setCode(e.target.value)} required className="w-full text-gray-700  border boder-gray-300 px-4 py-3 rounded-lg" />
             </div>
             {error && <div className="text-red-500 text-sm text-center">{error}</div>}
             {resendMsg && <div className="text-green-600 text-sm text-center">{resendMsg}</div>}
@@ -64,7 +79,9 @@ export default function VerifyEmail() {
             <button type="button" onClick={handleResend} className="w-full text-blue-400 py-3 font-semibold hover:underline transition-colors mt-2" disabled={resendLoading}>
               {resendLoading ? 'Resending...' : 'Resend Code'}
             </button>
-            <button type="button" onClick={() => navigate('/login')} className="w-full text-blue-400 hover:underline font-semibold mt-2">Back to Login</button>
+            <div className="text-center mt-2">
+              <Link to={isSuperAdmin ? '/superadminregistration/login' : '/login'} className="text-blue-400 hover:underline font-semibold">Back to Login</Link>
+            </div>
           </form>
         </div>
       </div>
