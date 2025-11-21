@@ -144,6 +144,17 @@ User.prototype.getFullName = function() {
 };
 
 User.prototype.toPublic = function() {
+  // Get role name if available
+  let roleName = null;
+  if (this.Role && this.Role.name) {
+    roleName = this.Role.name;
+  } else if (this.roleId && this.getRole) {
+    // Try to fetch role if not loaded
+    try {
+      const role = this.getRole();
+      if (role && role.name) roleName = role.name;
+    } catch (e) {}
+  }
   return {
     fullName: `${this.firstName} ${this.lastName}`,
     email: this.email,
@@ -155,6 +166,8 @@ User.prototype.toPublic = function() {
     preferences: this.preferences,
     createdAt: this.createdAt,
     updatedAt: this.updatedAt,
+    roleId: this.roleId,
+    roleName: roleName,
   };
 };
 

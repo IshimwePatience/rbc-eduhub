@@ -33,7 +33,6 @@ export default function ForgotPassword() {
       {/* Logo */}
       <div className="fixed top-8 left-2 pt-6 pl-6 z-50 flex item-center gap-4">
         <img src={Gov} alt="RBC Logo" className="h-16" />
-        <img src={rbcLogo} alt="RBC Logo" className="h-16" />
       </div>
       <div className="max-w-md w-full">
         <div className="rounded-2xl border border-gray-500 p-8">

@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import Navbar from './component/navbar';
+import TopNavbar from './component/navbar/TopNavbar';
 import SubNavbar from './component/subnavbar';
 import Getstarted from './component/landingpages/Getstarted';
 import About from './component/landingpages/About';
 import Contact from './component/landingpages/Contact';
 import Categories from './component/landingpages/Categories';
 import Instructors from './component/landingpages/Instructors';
-import Login from './component/auth/Login';
+import Login from './component/auth/login.jsx';
 import Signup from './component/auth/signup';
 import ForgotPassword from './component/auth/ForgotPassword';
 import VerifyEmail from './component/auth/VerifyEmail';
@@ -16,9 +17,19 @@ import SuperAdminRegister from './component/auth/SuperAdminRegister';
 import Footer from './component/footer';
 import Certificates from './component/landingpages/certificates';
 import SocialCallback from './component/auth/SocialCallback';
+import InstructorDashboard from './component/dashboard/InstructorDashboard';
 
-function App() {
+function PrivateRoute({ children }) {
+  const isAuthenticated = !!localStorage.getItem('accessToken');
+  return isAuthenticated ? children : <Navigate to="/login" />;
+}
+
+function AppContent() {
   const [isOnline, setIsOnline] = useState(navigator.onLine);
+  const location = useLocation();
+
+  // Check if current route is a dashboard route
+  const isDashboardRoute = location.pathname.startsWith('/dashboard');
 
   useEffect(() => {
     const handleOnline = () => setIsOnline(true);
@@ -34,98 +45,110 @@ function App() {
   }, []);
 
   return (
-    <Router>
-      <div className="w-full">
-        {/* Show offline banner when no internet - responsive text size */}
-        {!isOnline && (
-          <div className="bg-gray-800 text-white text-center py-2 px-4 text-xs sm:text-sm">
-            You are offline. Some features may not work.
-          </div>
-        )}
-        
-        <Navbar />
-        
-        <div className="w-full">
-          <Routes>
-            <Route path="/Getstarted" element={
-              <>
-                <SubNavbar />
-                <Getstarted />
-                <Footer />
-              </>
-            } />
-            <Route path="/about" element={
-              <>
-                <SubNavbar />
-                <About />
-                <Footer />
-              </>
-            } />
-            <Route path="/contact" element={
-              <>
-                <SubNavbar />
-                <Contact />
-                <Footer />
-              </>
-            } />
-            <Route path="/categories" element={
-              <>
-                <SubNavbar />
-                <Categories />
-                <Footer />
-              </>
-            } />
-              <Route path="/instructors" element={
-                <>
-                  <SubNavbar />
-                  <Instructors />
-                  <Footer />
-                </>
-              } />
-             <Route path="/certificates" element={
-              <>
-                <SubNavbar />
-                <Certificates />
-                <Footer />
-              </>
-            } />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route path="/verify-email" element={<VerifyEmail />} />
-            <Route path="/register-institution" element={<InstitutionRegister />} />
-            <Route path="/superadminregistration" element={<SuperAdminRegister />} />
-            <Route path="/superadminregistration/login" element={<Login />} />
-            <Route path="/superadminregistration/verify-email" element={<VerifyEmail />} />
-            <Route path="/superadminregistration/forgot-password" element={<ForgotPassword />} />
-            <Route path="/auth/social-callback" element={<SocialCallback />} />
-            <Route path="/auth/success" element={<SocialCallback />} />
-            <Route path="/" element={
-              <>
-                <SubNavbar />
-                <Getstarted />
-                <Footer />
-              </>
-            } />
-          </Routes>
+    <div className="w-full">
+      {/* Show offline banner when no internet - responsive text size */}
+      {!isOnline && (
+        <div className="bg-gray-800 text-white text-center py-2 px-4 text-xs sm:text-sm">
+          You are offline. Some features may not work.
         </div>
-        
-        <style>{`
-          @keyframes slideDown {
-            from {
-              opacity: 0;
-              transform: translateY(-10px);
-            }
-            to {
-              opacity: 1;
-              transform: translateY(0);
-            }
-          }
-          .animate-slideDown {
-            animation: slideDown 0.3s ease-out;
-          }
-        `}</style>
+      )}
+
+      {/* Show default Navbar only on public routes (not dashboard) */}
+      {!isDashboardRoute && <Navbar />}
+
+      <div className="w-full">
+        <Routes>
+          <Route path="/Getstarted" element={
+            <>
+              <SubNavbar />
+              <Getstarted />
+              <Footer />
+            </>
+          } />
+          <Route path="/about" element={
+            <>
+              <SubNavbar />
+              <About />
+              <Footer />
+            </>
+          } />
+          <Route path="/contact" element={
+            <>
+              <SubNavbar />
+              <Contact />
+              <Footer />
+            </>
+          } />
+          <Route path="/categories" element={
+            <>
+              <SubNavbar />
+              <Categories />
+              <Footer />
+            </>
+          } />
+          <Route path="/instructors" element={
+            <>
+              <SubNavbar />
+              <Instructors />
+              <Footer />
+            </>
+          } />
+          <Route path="/certificates" element={
+            <>
+              <SubNavbar />
+              <Certificates />
+              <Footer />
+            </>
+          } />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/verify-email" element={<VerifyEmail />} />
+          <Route path="/register-institution" element={<InstitutionRegister />} />
+          <Route path="/superadminregistration" element={<SuperAdminRegister />} />
+          <Route path="/superadminregistration/login" element={<Login />} />
+          <Route path="/superadminregistration/verify-email" element={<VerifyEmail />} />
+          <Route path="/superadminregistration/forgot-password" element={<ForgotPassword />} />
+          <Route path="/auth/social-callback" element={<SocialCallback />} />
+          <Route path="/auth/success" element={<SocialCallback />} />
+          <Route path="/dashboard" element={
+            <PrivateRoute>
+              <InstructorDashboard />
+            </PrivateRoute>
+          } />
+          <Route path="/" element={
+            <>
+              <SubNavbar />
+              <Getstarted />
+              <Footer />
+            </>
+          } />
+        </Routes>
       </div>
+
+      <style>{`
+        @keyframes slideDown {
+          from {
+            opacity: 0;
+            transform: translateY(-10px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        .animate-slideDown {
+          animation: slideDown 0.3s ease-out;
+        }
+      `}</style>
+    </div>
+  );
+}
+
+function App() {
+  return (
+    <Router>
+      <AppContent />
     </Router>
   );
 }

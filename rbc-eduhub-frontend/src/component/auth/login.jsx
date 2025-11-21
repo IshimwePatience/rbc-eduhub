@@ -19,24 +19,38 @@ function Login() {
     setLoading(true);
     setError('');
     try {
-      // recaptchaToken can be added if you integrate recaptcha
       const res = await login(email, password);
-      // API returns { success: true, data: { user, accessToken, ... } }
       const payload = res?.data || res;
       const user = payload?.user || null;
-      if (!user) {
-        setError('Login succeeded but no user info returned');
+      const accessToken = payload?.accessToken;
+      if (!user || !accessToken) {
+        setError('Login succeeded but no user info or token returned');
         return;
       }
-      // simple role-based redirect: you can customize mappings
-      // fetch role names if needed; for now route to dashboard or admin
-      // Example mapping by roleId is left simple
-      if (user.roleId) {
-        // naive: if roleId present, go to dashboard
-        navigate('/dashboard');
-      } else {
-        navigate('/profile-setup');
+      // Store accessToken and user info securely
+      localStorage.setItem('accessToken', accessToken);
+      localStorage.setItem('user', JSON.stringify(user));
+      // Role-based dashboard redirect
+      let dashboardPath = '/dashboard';
+      if (user.roleId && user.roleId > 0) {
+        switch (user.roleId) {
+          case 1:
+            dashboardPath = '/dashboard/learner';
+            break;
+          case 2:
+            dashboardPath = '/dashboard/instructor';
+            break;
+          case 3:
+            dashboardPath = '/dashboard/admin';
+            break;
+          case 4:
+            dashboardPath = '/dashboard/superadmin';
+            break;
+          default:
+            dashboardPath = '/dashboard';
+        }
       }
+      navigate(dashboardPath);
     } catch (err) {
       if (err?.message && (/not found|invalid credentials|no user/i.test(err.message))) {
         setError('No account found with this email or password is incorrect');
@@ -67,7 +81,6 @@ function Login() {
           {/* Logo */}
           <div className="fixed top-8 left-2 pt-6 pl-6 z-50 flex item-center gap-4">
             <img src={Gov} alt="RBC Logo" className="h-16" />
-            <img src={rbcLogo} alt="RBC Logo" className="h-16" />
           </div>
           {/* Get Started Link (hide for Super Admin) */}
           {!isSuperAdmin && (

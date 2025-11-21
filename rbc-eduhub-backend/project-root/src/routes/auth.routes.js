@@ -1,14 +1,17 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('passport');
-const { signupController, loginController, mfaSetupController, mfaVerifySetupController, mfaDisableController, mfaVerifyLoginController } = require('../controller/auth.controller');
+const { signupController, loginController, mfaSetupController, mfaVerifySetupController, mfaDisableController, mfaVerifyLoginController, getProfileController } = require('../controller/auth.controller');
+// Get current user profile (requires authentication)
+const { requireAuth } = require('../middleware/auth.middleware');
+router.get('/profile', requireAuth, getProfileController);
 const { sendVerificationController, verifyEmailController, sendPasswordResetController, resetPasswordController, resendVerificationCodeController } = require('../controller/verification.controller');
 const { refreshTokenController, logoutController } = require('../controller/auth.controller');
 const { createTokensForUser } = require('../services/auth.service');
 const { validate } = require('../middleware/validation.middleware');
 const { signupValidation, loginValidation } = require('../middleware/validators/auth.validators');
 const { verifyRecaptcha } = require('../middleware/recaptcha.middleware');
-const { requireAuth } = require('../middleware/auth.middleware');
+// const { requireAuth } = require('../middleware/auth.middleware');
 
 // POST /api/auth/signup
 router.post('/signup', verifyRecaptcha, validate(signupValidation), signupController);

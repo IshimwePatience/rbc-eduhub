@@ -1,3 +1,26 @@
+// Get current user profile (requires authentication)
+async function getProfileController(req, res) {
+  try {
+    // req.auth is set by auth middleware (user id in req.auth.sub)
+    const { User } = require('../model');
+    const userId = req.auth?.sub;
+    if (!userId) return res.status(401).json({ success: false, message: 'Not authenticated' });
+    const user = await User.findByPk(userId);
+    if (!user) return res.status(404).json({ success: false, message: 'User not found' });
+    // Only return public fields
+    const publicUser = {
+      id: user.id,
+      fullName: user.fullName || (user.firstName + ' ' + user.lastName),
+      email: user.email,
+      profilePic: user.profilePic || user.profilePhoto || null,
+      roleId: user.roleId,
+      roleName: user.roleName || undefined,
+    };
+    return res.json({ success: true, user: publicUser });
+  } catch (err) {
+    return res.status(500).json({ success: false, message: err.message || 'Failed to fetch profile' });
+  }
+}
 // Auth controller: handles HTTP, calls auth service, returns JSON
 const { signUp, login, refreshAuth, logout } = require('../services/auth.service');
 const refreshTokenCookieName = process.env.REFRESH_TOKEN_COOKIE_NAME || 'refreshToken';
@@ -212,4 +235,5 @@ module.exports = {
   mfaVerifySetupController,
   mfaDisableController,
   mfaVerifyLoginController,
+  getProfileController,
 };

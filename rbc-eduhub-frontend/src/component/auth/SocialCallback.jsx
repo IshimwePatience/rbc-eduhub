@@ -50,9 +50,35 @@ export default function SocialCallback() {
 
   function redirectByRole(u) {
     if (!u) return navigate('/');
-    // Show success message then redirect to login
-    setTimeout(() => navigate('/login'), 2000);
-    setSuccessMsg('Signup successful! Please login to continue.');
+    // Store accessToken if available (from refreshAuth)
+    if (u && u.accessToken) {
+      localStorage.setItem('accessToken', u.accessToken);
+    }
+    if (u) {
+      localStorage.setItem('user', JSON.stringify(u));
+    }
+    // Role-based dashboard redirect
+    let dashboardPath = '/dashboard';
+    if (u && u.roleId && u.roleId > 0) {
+      switch (u.roleId) {
+        case 1:
+          dashboardPath = '/dashboard/learner';
+          break;
+        case 2:
+          dashboardPath = '/dashboard/instructor';
+          break;
+        case 3:
+          dashboardPath = '/dashboard/admin';
+          break;
+        case 4:
+          dashboardPath = '/dashboard/superadmin';
+          break;
+        default:
+          dashboardPath = '/dashboard';
+      }
+    }
+    setTimeout(() => navigate(dashboardPath), 1000);
+    setSuccessMsg('Signup successful! Redirecting to dashboard...');
   }
 
   async function submitRole() {

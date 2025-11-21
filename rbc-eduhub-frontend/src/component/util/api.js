@@ -1,3 +1,33 @@
+// Fetch current user profile
+export async function getProfile() {
+	const API_BASE = import.meta.env.VITE_API_URL || '';
+	const res = await fetch(`${API_BASE}/api/auth/profile`, {
+		method: 'GET',
+		headers: {
+			'Content-Type': 'application/json',
+			...(localStorage.getItem('accessToken') ? { 'Authorization': 'Bearer ' + localStorage.getItem('accessToken') } : {})
+		},
+		credentials: 'include',
+	});
+	if (!res.ok) throw new Error(await res.text());
+	return res.json();
+}
+// Update user profile
+export async function updateProfile(profile) {
+	// PATCH or PUT to /api/auth/profile (adjust endpoint as needed)
+	const res = await fetch(`${API_BASE}/api/auth/profile`, {
+		method: 'PATCH',
+		headers: {
+			'Content-Type': 'application/json',
+			// Optionally add Authorization header if needed
+			...(localStorage.getItem('accessToken') ? { 'Authorization': 'Bearer ' + localStorage.getItem('accessToken') } : {})
+		},
+		credentials: 'include',
+		body: JSON.stringify(profile)
+	});
+	if (!res.ok) throw new Error(await res.text());
+	return res.json();
+}
 // Frontend API helpers
 // Provides a callAI(prompt) function that forwards the prompt to the backend AI proxy.
 // Usage:
@@ -37,19 +67,39 @@ export async function callAI(prompt, options = {}) {
 	return json;
 }
 
- 
+export async function addContent(payload) {
+	return await postJSON('/api/content', payload, { withCredentials: true });
+}
+
+export async function addYouTubeVideo(courseId, title, youtubeUrl) {
+	return await postJSON('/api/content/youtube', { courseId, title, youtubeUrl }, { withCredentials: true });
+}
+
+export async function cutVideo(contentId, startTime, endTime) {
+	return await postJSON('/api/content/cut', { contentId, startTime, endTime }, { withCredentials: true });
+}
 
 // ---- Auth helpers ----
 export async function login(email, password, recaptchaToken) {
-	return await postJSON('/api/auth/login', { email, password, recaptchaToken }, { withCredentials: true });
+	const res = await postJSON('/api/auth/login', { email, password, recaptchaToken }, { withCredentials: true });
+	// Store accessToken if present
+	const accessToken = res?.data?.accessToken || res?.accessToken;
+	if (accessToken) localStorage.setItem('accessToken', accessToken);
+	return res;
 }
 
 export async function signup(payload) {
-	return await postJSON('/api/auth/signup', payload, { withCredentials: true });
+	const res = await postJSON('/api/auth/signup', payload, { withCredentials: true });
+	const accessToken = res?.data?.accessToken || res?.accessToken;
+	if (accessToken) localStorage.setItem('accessToken', accessToken);
+	return res;
 }
 
 export async function refreshAuth() {
-	return await postJSON('/api/auth/refresh-token', {}, { withCredentials: true });
+	const res = await postJSON('/api/auth/refresh-token', {}, { withCredentials: true });
+	const accessToken = res?.data?.accessToken || res?.accessToken;
+	if (accessToken) localStorage.setItem('accessToken', accessToken);
+	return res;
 }
 
 export async function logout() {

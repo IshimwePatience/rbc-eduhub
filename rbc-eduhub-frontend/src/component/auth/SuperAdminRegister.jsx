@@ -65,7 +65,6 @@ export default function SuperAdminRegister() {
       {/* Logo */}
       <div className="fixed top-8 left-2 pt-6 pl-6 z-50 flex item-center gap-4">
         <img src={Gov} alt="RBC Logo" className="h-16" />
-        <img src={rbcLogo} alt="RBC Logo" className="h-16" />
       </div>
       <div className="w-full lg:w-1/2 flex items-center justify-center bg-white px-6 py-10">
         <div className="max-w-md w-full">
